@@ -1,33 +1,70 @@
-.App {
-  text-align: center;
+.main-grid {
+    margin-top: 20px;
+    display: grid;
+    /*grid-template-columns: 1fr 1fr 1fr;*/
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+    justify-content: start;
+    align-items: start;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.group {
+    /*display: grid;*/
+    /*grid-template-columns: auto auto;*/
+    /*grid-row-gap: 0.25rem;*/
+    /*grid-column-gap: 1rem;*/
+    /*justify-content: start;*/
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    border: 1px solid #ccc;
+    padding: 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.controls {
+    display: flex;
+    flex-direction: row;
 }
 
-.App-link {
-  color: #61dafb;
+/*.controls div.control:not(:first-child) {*/
+/*    margin-left: 20px;*/
+/*}*/
+
+h3 {
+    margin: 0 0 10px 0;
+    grid-column: span 2;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.oscillator {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.filter {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.cycling-env {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.arp-seq {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.lfo {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.env {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.keyboard {
+    grid-column: 1;
+    grid-row: 3;
 }
