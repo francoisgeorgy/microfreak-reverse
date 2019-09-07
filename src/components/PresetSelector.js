@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import "./PresetSelector.css";
 import {inject, observer} from "mobx-react";
-import {PORT_OUTPUT} from "./Midi";
-import {portById} from "../utils/midi";
+// import {PORT_OUTPUT} from "./Midi";
+// import {portById} from "../utils/midi";
 
 class PresetSelector extends Component {
 
+/*
     state = {
         direct_access: false
     };
@@ -25,9 +26,20 @@ class PresetSelector extends Component {
             }
         }
     };
+*/
+    setPreset = (e) => {
+        this.props.state.preset.current = parseInt(e.target.value, 10);
+        console.log("setPreset", this.props.state.preset.current);
+    };
 
     render() {
+        return (
+            <div>
+                preset: <input type="number" id="preset" name="preset" min="0" max="255" value={this.props.state.preset.current} onChange={this.setPreset} />
+            </div>
+        );
 
+/*
         const pc = [];
         for (let i=0; i<256; i++){
             pc.push(<div key={i} onClick={() => this.selectPreset(i)}>{i}</div>);
@@ -43,6 +55,7 @@ class PresetSelector extends Component {
                 <div className="direct-access">{this.state.direct_access && pc}</div>
             </div>
         );
+*/
     }
 
 }

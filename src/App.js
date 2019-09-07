@@ -6,7 +6,6 @@ import {state} from "./state/State";
 import MidiPorts from "./components/MidiPorts";
 import PresetSelector from "./components/PresetSelector";
 import {portById, readPreset} from "./utils/midi";
-import {hs} from "./utils/hexstring";
 import {Bytes} from "./components/Bytes";
 
 class App extends Component {
@@ -17,7 +16,7 @@ class App extends Component {
             return;
         }
         // if (global.dev) console.log("handleMidiInputEvent", hs(e.data), e);
-        state.data.push(e.data);
+        state.data.push(Array.from(e.data));    // e.data is UInt8Array
     };
 
     sendIdRequest = () => {
@@ -54,9 +53,11 @@ class App extends Component {
         }
     };
 
+    updateRef = () => {
+        state.updateRef();
+    };
+
     render() {
-
-
         return (
             <Provider state={state}>
                 <Midi messageType="midimessage" onMidiInputEvent={this.handleMidiInputEvent} />
@@ -68,10 +69,16 @@ class App extends Component {
                         <button type="button" onClick={this.sendIdRequest}>Request ID</button>
                         <button type="button" onClick={this.sendPresetRequest}>Request Preset Header</button>
                         <button type="button" onClick={this.sendPresetRequestData}>Request Preset Data</button>
-                        <button type="button" onClick={readPreset}>Read Preset</button>
+                        <button type="button" onClick={readPreset}>Read Preset {state.preset.current}</button>
+                        <button type="button" onClick={this.updateRef}>Use as ref</button>
                     </div>
                     <div>
+                        <p>{state.preset.current}</p>
                         <Bytes bytes={state.data} />
+                    </div>
+                    <div>
+                        <p>ref {state.preset.reference}:</p>
+                        <Bytes bytes={state.dataRef} />
                     </div>
                 </div>
             </Provider>

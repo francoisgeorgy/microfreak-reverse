@@ -15,7 +15,13 @@ class State {
 
     // preset = new Array(127).fill(0);
 
+    preset = {
+        current: 0,
+        reference: null
+    };
+
     data = [];
+    dataRef = [];   // copy used as reference for comparisons
 
     addPort(port) {
         // eslint-disable-next-line
@@ -117,12 +123,19 @@ class State {
         }
     }
 
+    updateRef() {
+        this.dataRef = JSON.parse(JSON.stringify(this.data));
+        this.preset.reference = this.preset.current;
+    }
+
 }
 
 // https://mobx.js.org/best/decorators.html
 decorate(State, {
     midi: observable,
-    data: observable
+    preset: observable,
+    data: observable,
+    dataRef: observable
 });
 
 export const state = new State();
