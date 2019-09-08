@@ -16,7 +16,7 @@ class State {
     // preset = new Array(127).fill(0);
 
     preset = {
-        current: 0,
+        current: 1,
         reference: null,
         current_counter: 0
     };

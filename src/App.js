@@ -8,6 +8,7 @@ import PresetSelector from "./components/PresetSelector";
 import {portById, readPreset} from "./utils/midi";
 import {Bytes} from "./components/Bytes";
 import Data from "./components/Data";
+import Actions from "./components/Actions";
 
 const MESSAGE_TYPE = "sysex";
 // const MESSAGE_TYPE = "midimessage";
@@ -23,6 +24,7 @@ class App extends Component {
         state.data.push(Array.from(e.data));    // e.data is UInt8Array
     };
 
+/*
     sendIdRequest = () => {
         const P = state.midi.ports;
         for (const port_id of Object.keys(P)) {
@@ -60,6 +62,7 @@ class App extends Component {
     updateRef = () => {
         state.updateRef();
     };
+*/
 
     render() {
         return (
@@ -69,14 +72,18 @@ class App extends Component {
                     <h2>MicroFreak CC values</h2>
                     <MidiPorts messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                     <PresetSelector />
+{/*
                     <div>
                         <button type="button" onClick={this.sendIdRequest}>Request ID</button>
                         <button type="button" onClick={this.sendPresetRequest}>Request Preset Header</button>
                         <button type="button" onClick={this.sendPresetRequestData}>Request Preset Data</button>
                         <button type="button" onClick={readPreset}>Read Preset {state.preset.current}</button>
+                        <button type="button" onClick={readPreset}>Use as ref and re-read preset {state.preset.current}</button>
                         <button type="button" onClick={this.updateRef}>Use as ref</button>
                     </div>
-                    <Data/>
+*/}
+                    <Actions />
+                    <Data />
                 </div>
             </Provider>
         );

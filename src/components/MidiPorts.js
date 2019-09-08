@@ -27,13 +27,15 @@ class MidiPorts extends React.Component {
         const groupedByName = {};
 
         for (let [id, port] of Object.entries(ports)) {
-            if (!(port.name in groupedByName)) {
-                groupedByName[port.name] = {
-                    input: null,
-                    output: null
-                };
+            if (port) {
+                if (!(port.name in groupedByName)) {
+                    groupedByName[port.name] = {
+                        input: null,
+                        output: null
+                    };
+                }
+                groupedByName[port.name][port.type] = id;
             }
-            groupedByName[port.name][port.type] = id;
         }
 
         if (ports) {

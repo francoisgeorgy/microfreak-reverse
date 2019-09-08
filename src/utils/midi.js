@@ -42,8 +42,11 @@ function outputName(id) {
 
 function sendPresetRequest(presetNumber) {
 
-    const bank = presetNumber > 127 ? 1 : 0;
-    const preset = presetNumber % 128;
+    // presetNumber is 1-indexed
+    // in the request we must use 0-indexed
+
+    const bank = presetNumber > 128 ? 1 : 0;
+    const preset = (presetNumber-1) % 128;
 
     console.log(`sendPresetRequest ${presetNumber}`, bank, preset);
 
