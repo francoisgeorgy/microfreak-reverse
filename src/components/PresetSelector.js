@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import "./PresetSelector.css";
 import {inject, observer} from "mobx-react";
 // import {PORT_OUTPUT} from "./Midi";
 // import {portById} from "../utils/midi";
+import "./PresetSelector.css";
 
 class PresetSelector extends Component {
 
@@ -29,7 +29,7 @@ class PresetSelector extends Component {
 */
     setPreset = (e) => {
         this.props.state.preset.current = parseInt(e.target.value, 10);
-        console.log("setPreset", this.props.state.preset.current);
+        console.log("setPreset", this.props.state.preset.current, this.props.state.preset.reference);
     };
 
     render() {

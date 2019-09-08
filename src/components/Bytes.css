@@ -1,3 +1,22 @@
 .bytes {
     font-family: monospace;
+    white-space: pre;
+}
+
+.bytes > div {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-head {
+    /*display: inline;*/
+    width: 30px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.d {
+    font-weight: bold;
+    background-color: #ffbfb0;
+    cursor: pointer;
 }

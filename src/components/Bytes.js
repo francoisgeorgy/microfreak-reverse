@@ -9,8 +9,13 @@ export const Bytes = observer(({bytes}) => {
     return (
         <div className="bytes">
             {bytes.map((a, i) => {
-                    return <div key={i}>{a && Array.from(a).map(b => `${h(b)} `)}</div>;
-                }
+                return (
+                    <div key={i}>
+                        <div className="row-head">{i}:</div>
+                        {a && Array.from(a).map(b => `${h(b)} `)}
+                    </div>
+                );
+            }
             )}
         </div>
     );

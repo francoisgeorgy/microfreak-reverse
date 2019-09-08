@@ -7,6 +7,10 @@ import MidiPorts from "./components/MidiPorts";
 import PresetSelector from "./components/PresetSelector";
 import {portById, readPreset} from "./utils/midi";
 import {Bytes} from "./components/Bytes";
+import Data from "./components/Data";
+
+const MESSAGE_TYPE = "sysex";
+// const MESSAGE_TYPE = "midimessage";
 
 class App extends Component {
 
@@ -60,10 +64,10 @@ class App extends Component {
     render() {
         return (
             <Provider state={state}>
-                <Midi messageType="midimessage" onMidiInputEvent={this.handleMidiInputEvent} />
+                <Midi messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                 <div className="App">
                     <h2>MicroFreak CC values</h2>
-                    <MidiPorts messageType="midimessage" onMidiInputEvent={this.handleMidiInputEvent} />
+                    <MidiPorts messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                     <PresetSelector />
                     <div>
                         <button type="button" onClick={this.sendIdRequest}>Request ID</button>
@@ -72,14 +76,7 @@ class App extends Component {
                         <button type="button" onClick={readPreset}>Read Preset {state.preset.current}</button>
                         <button type="button" onClick={this.updateRef}>Use as ref</button>
                     </div>
-                    <div>
-                        <p>{state.preset.current}</p>
-                        <Bytes bytes={state.data} />
-                    </div>
-                    <div>
-                        <p>ref {state.preset.reference}:</p>
-                        <Bytes bytes={state.dataRef} />
-                    </div>
+                    <Data/>
                 </div>
             </Provider>
         );

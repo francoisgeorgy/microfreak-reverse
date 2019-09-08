@@ -45,6 +45,8 @@ function sendPresetRequest(presetNumber) {
     const bank = presetNumber > 127 ? 1 : 0;
     const preset = presetNumber % 128;
 
+    console.log(`sendPresetRequest ${presetNumber}`, bank, preset);
+
     const P = state.midi.ports;
     for (const port_id of Object.keys(P)) {
         if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
@@ -56,26 +58,34 @@ function sendPresetRequest(presetNumber) {
 }
 
 // 146x
-function sendPresetRequestData() {
+function sendPresetRequestData(n) {
     const P = state.midi.ports;
     for (const port_id of Object.keys(P)) {
         if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
             const port = portById(port_id);
             // if (global.dev) console.log(`send ID request to ${port.name} ${port.id}`);
-            port.sendSysex([0x00, 0x20, 0x6b], [0x07, 0x01, 0x01, 0x01, 0x18, 0x00]);  // use sendSysex to bypass the webmidijs internal checks.
+            port.sendSysex([0x00, 0x20, 0x6b], [0x07, 0x01, n, 0x01, 0x18, 0x00]);  // use sendSysex to bypass the webmidijs internal checks.
         }
     }
 }
 
 export async function readPreset() {
     console.log("readPreset", state.preset.current);
-/*
-    sendPresetRequest(state.preset);
+
+    state.data = [];
+    state.preset.current_counter = 0;
+
+    sendPresetRequest(state.preset.current);
     await wait(2 * WAIT_BETWEEN_MESSAGES);
 
-    for (let i=0; i < 146; i++) {
-        sendPresetRequestData();
+    // const N = 146;
+    const N = 40;
+
+    for (let i=0; i < N; i++) {
+        // console.log(`sendPresetRequest ${i}`);
+        sendPresetRequestData(i);
+        state.preset.current_counter++;
         await wait(2 * WAIT_BETWEEN_MESSAGES);
     }
-*/
+
 }

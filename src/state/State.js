@@ -17,8 +17,10 @@ class State {
 
     preset = {
         current: 0,
-        reference: null
+        reference: null,
+        current_counter: 0
     };
+
 
     data = [];
     dataRef = [];   // copy used as reference for comparisons
@@ -124,8 +126,10 @@ class State {
     }
 
     updateRef() {
+        // console.log("updateRef: copy current to reference", JSON.stringify(this.data), JSON.stringify(this.dataRef));
         this.dataRef = JSON.parse(JSON.stringify(this.data));
         this.preset.reference = this.preset.current;
+        // console.log(JSON.stringify(this.data), JSON.stringify(this.dataRef));
     }
 
 }
