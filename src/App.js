@@ -28,6 +28,8 @@ class App extends Component {
         // F0 00 20 6B 07 01 nn 20 16   00 23 56 43 4F 44 54 79 10 70 65 63 0C 2B 0A 46 00 50 61 72 61 6D 31 63 03 6E 44 20 46 50 61 72    F7
         //  0  1  2  3  4  5  6  7  8    9
 
+        //TODO: use the sequence number to order the answers
+
         state.data.push(Array.from(e.data.slice(9, e.data.length - 1)));    // e.data is UInt8Array
     };
 
@@ -36,7 +38,6 @@ class App extends Component {
             <Provider state={state}>
                 <Midi messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                 <div className="App">
-                    {/*<h2>MicroFreak CC values</h2>*/}
                     <MidiPorts messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                     <div className="row">
                         <PresetSelector />
