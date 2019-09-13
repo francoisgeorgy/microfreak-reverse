@@ -5,6 +5,8 @@ import {PORT_INPUT} from "../components/Midi";
 
 // const MIDI_CONSOLE_SIZE = 100;
 
+export const DATA_SETS = 3;    // 0 is current
+
 class State {
 
     midi = {
@@ -22,8 +24,14 @@ class State {
     };
 
 
-    data = [];
-    dataRef = [];   // copy used as reference for comparisons
+    // data = [];
+    // dataRef = [];   // copy used as reference for comparisons
+
+    data = [{
+        preset: null,
+        data: []
+    }];
+
 
     addPort(port) {
         // eslint-disable-next-line
@@ -127,9 +135,17 @@ class State {
 
     updateRef() {
         // console.log("updateRef: copy current to reference", JSON.stringify(this.data), JSON.stringify(this.dataRef));
-        this.dataRef = JSON.parse(JSON.stringify(this.data));
-        this.preset.reference = this.preset.current;
+        // this.dataRef = JSON.parse(JSON.stringify(this.data));
+        // this.preset.reference = this.preset.current;
         // console.log(JSON.stringify(this.data), JSON.stringify(this.dataRef));
+
+        this.data.push(JSON.parse(JSON.stringify(this.data[0])));
+        this.data.pop();
+
+        // 2-->forget
+        // 1-->2
+        // 0-->1
+
     }
 
 }
