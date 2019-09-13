@@ -1,7 +1,6 @@
 import {inject, observer} from "mobx-react";
 import React, {Component, Fragment} from "react";
 import {Bytes} from "./Bytes";
-import {state} from "../state/State";
 import DataDelta from "./DataDelta";
 
 class Data extends Component {

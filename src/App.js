@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import './App.css';
-import Midi, {PORT_OUTPUT} from "./components/Midi";
+import Midi from "./components/Midi";
 import {Provider} from "mobx-react";
 import {state} from "./state/State";
 import MidiPorts from "./components/MidiPorts";
 import PresetSelector from "./components/PresetSelector";
-import {portById, readPreset} from "./utils/midi";
-import {Bytes} from "./components/Bytes";
 import Data from "./components/Data";
 import Actions from "./components/Actions";
+import DeltaList from "./components/DeltaList";
+import './App.css';
 
 const MESSAGE_TYPE = "sysex";
 // const MESSAGE_TYPE = "midimessage";
@@ -16,73 +15,34 @@ const MESSAGE_TYPE = "sysex";
 class App extends Component {
 
     handleMidiInputEvent = (e) => {
+
         if (e.data[0] === 0xF8) {
             // we ignore Timing Clock messages
             return;
         }
         // if (global.dev) console.log("handleMidiInputEvent", hs(e.data), e);
-        state.data.push(Array.from(e.data));    // e.data is UInt8Array
-    };
+        //state.data.push(Array.from(e.data));    // e.data is UInt8Array
+        // do not store sysex header, sysex footer, man. id and constant data header:
 
-/*
-    sendIdRequest = () => {
-        const P = state.midi.ports;
-        for (const port_id of Object.keys(P)) {
-            if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
-                const port = portById(port_id);
-                if (global.dev) console.log(`send ID request to ${port.name} ${port.id}`);
-                port.sendSysex([0x7e, 0x7f, 0x06], [0x01]);  // use sendSysex to bypass the webmidijs internal checks.
-            }
-        }
-    };
+        // answers:                     1  2  3  4  5  6  7  8  9  A  B  C  D  E  F  10 11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 20
+        // F0 00 20 6B 07 01 nn 20 16   00 23 56 43 4F 44 54 79 10 70 65 63 0C 2B 0A 46 00 50 61 72 61 6D 31 63 03 6E 44 20 46 50 61 72    F7
+        //  0  1  2  3  4  5  6  7  8    9
 
-    sendPresetRequest = () => {
-        const P = state.midi.ports;
-        for (const port_id of Object.keys(P)) {
-            if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
-                const port = portById(port_id);
-                if (global.dev) console.log(`send ID request to ${port.name} ${port.id}`);
-                port.sendSysex([0x00, 0x20, 0x6b], [0x07, 0x01, 0x01, 0x01, 0x19, 0x01, 0x47, 0x01]);  // use sendSysex to bypass the webmidijs internal checks.
-            }
-        }
+        state.data.push(Array.from(e.data.slice(9, e.data.length - 1)));    // e.data is UInt8Array
     };
-
-    // 146x
-    sendPresetRequestData = () => {
-        const P = state.midi.ports;
-        for (const port_id of Object.keys(P)) {
-            if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
-                const port = portById(port_id);
-                if (global.dev) console.log(`send ID request to ${port.name} ${port.id}`);
-                port.sendSysex([0x00, 0x20, 0x6b], [0x07, 0x01, 0x01, 0x01, 0x18, 0x00]);  // use sendSysex to bypass the webmidijs internal checks.
-            }
-        }
-    };
-
-    updateRef = () => {
-        state.updateRef();
-    };
-*/
 
     render() {
         return (
             <Provider state={state}>
                 <Midi messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                 <div className="App">
-                    <h2>MicroFreak CC values</h2>
+                    {/*<h2>MicroFreak CC values</h2>*/}
                     <MidiPorts messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
-                    <PresetSelector />
-{/*
-                    <div>
-                        <button type="button" onClick={this.sendIdRequest}>Request ID</button>
-                        <button type="button" onClick={this.sendPresetRequest}>Request Preset Header</button>
-                        <button type="button" onClick={this.sendPresetRequestData}>Request Preset Data</button>
-                        <button type="button" onClick={readPreset}>Read Preset {state.preset.current}</button>
-                        <button type="button" onClick={readPreset}>Use as ref and re-read preset {state.preset.current}</button>
-                        <button type="button" onClick={this.updateRef}>Use as ref</button>
+                    <div className="row">
+                        <PresetSelector />
+                        <Actions />
                     </div>
-*/}
-                    <Actions />
+                    <DeltaList />
                     <Data />
                 </div>
             </Provider>

@@ -1,10 +1,10 @@
 import {inject, observer} from "mobx-react";
 import React, {Component} from "react";
-import {state} from "../state/State";
 import {portById, readPreset} from "../utils/midi";
 import {PORT_OUTPUT} from "./Midi";
 
 class Actions extends Component {
+
     sendIdRequest = () => {
         const P = this.props.state.midi.ports;
         for (const port_id of Object.keys(P)) {
@@ -49,17 +49,16 @@ class Actions extends Component {
         readPreset();
     };
 
-
     render() {
         const S = this.props.state;
         return (
             <div>
-                <button type="button" onClick={this.sendIdRequest}>Request ID</button>
-                <button type="button" onClick={this.sendPresetRequest}>Request Preset Header</button>
-                <button type="button" onClick={this.sendPresetRequestData}>Request Preset Data</button>
+                {/*<button type="button" onClick={this.sendIdRequest}>Request ID</button>*/}
+                {/*<button type="button" onClick={this.sendPresetRequest}>Request Preset Header</button>*/}
+                {/*<button type="button" onClick={this.sendPresetRequestData}>Request Preset Data</button>*/}
                 <button type="button" onClick={readPreset}>Read preset {S.preset.current}</button>
-                <button type="button" onClick={this.updateRefAndRead}>Use as ref and re-read preset {S.preset.current}</button>
-                <button type="button" onClick={this.updateRef}>Use as ref</button>
+                <button type="button" onClick={this.updateRefAndRead}>Update ref and read preset {S.preset.current}</button>
+                <button type="button" onClick={this.updateRef}>Update ref</button>
             </div>
         );
     }

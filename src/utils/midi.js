@@ -18,29 +18,30 @@ export function portById(id) {
     }
 }
 
-/*
-function inputById(id) {
-    return WebMidi.inputs.find(item => item.id === id);
-}
+export function sendPC(n) {
 
-function outputById(id) {
-    return WebMidi.outputs.find(item => item.id === id);
-}
-*/
+    if (!state.hasInputAndOutputEnabled()) {
+        if (global.dev) console.log("sendPresetRequest: no output and/or input connected, ignore request");
+        return;
+    }
 
-/*
-function inputName(id) {
-    let i = inputById(id);
-    return i ? i.name : null;
+    const P = this.state.midi.ports;
+    for (const port_id of Object.keys(P)) {
+        if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
+            const port = portById(port_id);
+            if (global.dev) console.log(`send PC ${n} to ${port.name} ${port.id}`);
+            port.sendControlChange(WebMidi.MIDI_CONTROL_CHANGE_MESSAGES.bankselectcoarse, n < 128 ? 0 : 1);
+            port.sendProgramChange(n % 128);
+        }
+    }
 }
-
-function outputName(id) {
-    let i = outputById(id);
-    return i ? i.name : null;
-}
-*/
 
 function sendPresetRequest(presetNumber) {
+
+    if (!state.hasInputAndOutputEnabled()) {
+        if (global.dev) console.log("sendPresetRequest: no output and/or input connected, ignore request");
+        return;
+    }
 
     // presetNumber is 1-indexed
     // in the request we must use 0-indexed
@@ -48,7 +49,7 @@ function sendPresetRequest(presetNumber) {
     const bank = presetNumber > 128 ? 1 : 0;
     const preset = (presetNumber-1) % 128;
 
-    console.log(`sendPresetRequest ${presetNumber}`, bank, preset);
+    if (global.dev) console.log(`sendPresetRequest ${presetNumber}`, bank, preset);
 
     const P = state.midi.ports;
     for (const port_id of Object.keys(P)) {
@@ -60,8 +61,14 @@ function sendPresetRequest(presetNumber) {
     }
 }
 
-// 146x
+// do this 146x to read all the preset
 function sendPresetRequestData(n) {
+
+    if (!state.hasInputAndOutputEnabled()) {
+        if (global.dev) console.log("sendPresetRequestData: no output and/or input connected, ignore request");
+        return;
+    }
+
     const P = state.midi.ports;
     for (const port_id of Object.keys(P)) {
         if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
@@ -73,7 +80,13 @@ function sendPresetRequestData(n) {
 }
 
 export async function readPreset() {
-    console.log("readPreset", state.preset.current);
+
+    if (!state.hasInputAndOutputEnabled()) {
+        if (global.dev) console.log("readPreset: no output and/or input connected, ignore request");
+        return;
+    }
+
+    if (global.dev) console.log("readPreset", state.preset.current);
 
     state.data = [];
     state.preset.current_counter = 0;

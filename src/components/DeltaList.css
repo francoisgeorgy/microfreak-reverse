@@ -1,0 +1,8 @@
+.deltalist {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.deltalist > div {
+    margin-right: 10px;
+}

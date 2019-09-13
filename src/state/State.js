@@ -1,5 +1,6 @@
 import {decorate, observable} from 'mobx';
-import {PORT_INPUT} from "../components/Midi";
+import {PORT_INPUT, PORT_OUTPUT} from "../components/Midi";
+import {portById} from "../utils/midi";
 // import parseMidi from "parse-midi";
 // import {ds, hs} from "../utils/hexstring";
 
@@ -123,6 +124,30 @@ class State {
         for (const port_id of Object.keys(this.midi.ports)) {
             this.disconnectPort(port_id);
         }
+    }
+
+    /**
+     * Returns true if at least one input is enabled
+     */
+    hasInputEnabled() {
+        for (const port_id of Object.keys(this.midi.ports)) {
+            if (this.midi.ports[port_id].type === PORT_INPUT && this.midi.ports[port_id].enabled) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if at least one output is enabled
+     */
+    hasOutputEnabled() {
+        for (const port_id of Object.keys(this.midi.ports)) {
+            if (this.midi.ports[port_id].type === PORT_OUTPUT && this.midi.ports[port_id].enabled) return true;
+        }
+        return false;
+    }
+
+    hasInputAndOutputEnabled() {
+        return this.hasInputEnabled() && this.hasOutputEnabled();
     }
 
     updateRef() {

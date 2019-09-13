@@ -12,7 +12,7 @@ export const Bytes = observer(({bytes}) => {
                 return (
                     <div key={i}>
                         <div className="row-head">{i}:</div>
-                        {a && Array.from(a).map(b => `${h(b)} `)}
+                        {a && a.map(b => `${h(b)} `)}
                     </div>
                 );
             }
