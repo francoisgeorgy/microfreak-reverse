@@ -25,7 +25,7 @@ export function sendPC(n) {
         return;
     }
 
-    const P = this.state.midi.ports;
+    const P = state.midi.ports;
     for (const port_id of Object.keys(P)) {
         if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
             const port = portById(port_id);

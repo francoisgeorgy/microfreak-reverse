@@ -49,6 +49,10 @@ class Actions extends Component {
         readPreset();
     };
 
+    clearRef = () => {
+        this.props.state.clearRef();
+    };
+
     render() {
         const S = this.props.state;
         return (
@@ -59,6 +63,7 @@ class Actions extends Component {
                 <button type="button" onClick={readPreset}>Read preset {S.preset.current}</button>
                 <button type="button" onClick={this.updateRefAndRead}>Update ref and read preset {S.preset.current}</button>
                 <button type="button" onClick={this.updateRef}>Update ref</button>
+                <button type="button" onClick={this.clearRef}>Clear ref</button>
             </div>
         );
     }

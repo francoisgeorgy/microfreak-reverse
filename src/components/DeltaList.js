@@ -1,6 +1,7 @@
 import {inject, observer} from "mobx-react";
 import React, {Component} from "react";
 import "./DeltaList.css";
+import {h} from "../utils/hexstring";
 
 class DeltaList extends Component {
     render() {
@@ -16,7 +17,7 @@ class DeltaList extends Component {
                         return sysex.map(
                             (byte, b) => {
                                 if (byte !== R[s][b]) {
-                                    return <div key={`${s}${b}`}>D[{s}][{b}]</div>
+                                    return <div key={`${s}${b}`}>D[{s}][{b}] ({h(R[s][b])}) {h(byte)}</div>
                                 }
                             }
                         );

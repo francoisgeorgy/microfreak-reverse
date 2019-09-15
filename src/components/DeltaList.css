@@ -1,6 +1,11 @@
 .deltalist {
-    display: flex;
-    flex-wrap: wrap;
+    margin-top: 20px;
+    display: grid;
+    /*flex-wrap: wrap;*/
+    grid-template-columns: repeat(4, auto);
+    justify-content: start;
+    grid-column-gap: 20px;
+    font-family: monospace;
 }
 
 .deltalist > div {

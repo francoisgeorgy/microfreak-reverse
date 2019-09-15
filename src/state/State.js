@@ -157,6 +157,10 @@ class State {
         // console.log(JSON.stringify(this.data), JSON.stringify(this.dataRef));
     }
 
+    clearRef() {
+        this.dataRef = [];
+    }
+
 }
 
 // https://mobx.js.org/best/decorators.html
