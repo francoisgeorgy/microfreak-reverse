@@ -1,3 +1,8 @@
+.v-spaced {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .row {
     display: flex;
 }

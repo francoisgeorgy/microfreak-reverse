@@ -15,18 +15,39 @@ function h(v, n=2) {
     return (v === null || v === undefined) ? "" : padZero(v.toString(16).toUpperCase(), 2);
 }
 
-function matrixValue(b1, b2, b3) {
+/**
+ * Returns the number of bit 0 before the rightmost bit set to 1.
+ * @param {*} v
+ */
+function getRightShift(v) {
+    if (!v) return -1;  //means there isn't any 1-bit
+    let i = 0;
+    while ((v & 1) === 0) {
+        i++;
+        v = v>>1;
+    }
+    return i;
+}
 
-    // console.log(b3, b2, b1, (b3*256+b2+128*b1)*100/32767);
+function matrixValue(MSB, LSB, LSB_msb, mask=0x03) {
 
-    const neg = b1 & 0x02;
+    console.log("matrixValue", h(MSB), h(LSB), h(LSB_msb), mask);
+
+    const j = getRightShift(mask);      console.log(`j: ${j}`);
+    const k = mask >> j;                console.log(`k: ${b(mask)} --> ${b(k)}`);
+
+    const msb = LSB_msb >> j;
+
+    // const neg = LSB_msb & 0x02;
+    const neg = msb & 0x02;
     if (neg) {
         console.log('negative number');
     }
 
-    const high = (b3 & 0x7f) << 8;      console.log(`${h(b3)} ${b(b3)} --> ${b(high, 16)}`);    // MSB
-    const mid  = b2 & 0x7f;             console.log(`${h(b2)} ${b(b2)} --> ${b(mid, 16)}`);     // LSB
-    const low = (b1 & 0x01) << 7;       console.log(`${h(b1)} ${b(b1)} --> ${b(low, 16)}`);     // msb of LSB
+    const high = (MSB & 0x7f) << 8;      console.log(`${h(MSB)} ${b(MSB)} --> ${b(high, 16)}`);    // MSB
+    const mid  = LSB & 0x7f;             console.log(`${h(LSB)} ${b(LSB)} --> ${b(mid, 16)}`);     // LSB
+    const low = (msb & 0x01) << 7;       console.log(`${h(msb)} ${b(msb)} --> ${b(low, 16)}`);     // msb of LSB
+    // const low = (LSB_msb & 0x01) << 7;       console.log(`${h(LSB_msb)} ${b(LSB_msb)} --> ${b(low, 16)}`);     // msb of LSB
     const n = high + mid + low;         console.log(`            --> ${b(n, 16)}`);
                                         // console.log(h(b3), h(b2), h(b1), h(high), h(mid), h(low), h(v));
 /*
@@ -51,10 +72,13 @@ function matrixValue(b1, b2, b3) {
     return Math.round(f) / 10;
 }
 
-console.log(matrixValue(0x01, 0x40, 0x4c));     // 60.0
+console.log(matrixValue(0x4c, 0x40, 0x01));     // 60.0
 // console.log(matrixValue(0x00, 0x5f, 0x41));     // 51.1
 // console.log(matrixValue(0x02, 0x41, 0x33));     // -60.0
 // console.log(matrixValue(0x02, 0x61, 0x01));     // -98.9
+
+console.log(matrixValue(0x7f, 0x7f, 0x20, 0b01100000));     // 100.0
+console.log(matrixValue(0x4e, 0x5f, 0x00, 0b01100000));     // 100.0
 
 
 /*

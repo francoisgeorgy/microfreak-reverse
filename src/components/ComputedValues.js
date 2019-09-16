@@ -3,15 +3,21 @@ import React, {Component} from "react";
 import "./DeltaList.css";
 import {h} from "../utils/hexstring";
 import {matrix} from "../model";
+import {getRightShift} from "../utils/bits-utils";
 
 class ComputedValues extends Component {
 
-    matrixValue = (b1, b2, b3) => {
-        console.log("matrixValue", h(b1), h(b2), h(b3));
-        const neg = b1 & 0x02;
-        const high = (b3 & 0x7f) << 8;
-        const mid  = b2 & 0x7f;
-        const low = (b1 & 0x01) << 7;
+    matrixValue = (MSB, LSB, LSB_msb, mask=0x03) => {
+
+        console.log("matrixValue", h(MSB), h(LSB), h(LSB_msb), mask);
+
+        const j = getRightShift(mask);
+        const msb = LSB_msb >> j;
+
+        const neg = msb & 0x02;
+        const high = (MSB & 0x7f) << 8;
+        const mid  = LSB & 0x7f;
+        const low = (msb & 0x01) << 7;
         const n = high + mid + low;
         let f;
         if (neg) {
@@ -27,10 +33,22 @@ class ComputedValues extends Component {
         const D = this.props.state.data;
         console.log("m", m, D.length);
         if (D.length < 39) return;
+
+        const mask = m.LSB_msb.length === 3 ? m.LSB_msb[2] : 0x03;
+
         return this.matrixValue(
-            D[ m.byte1[0] ][ m.byte1[1] ],
-            D[ m.byte2[0] ][ m.byte2[1] ],
-            D[ m.byte3[0] ][ m.byte3[1] ])
+            D[ m.MSB[0] ][ m.MSB[1] ],
+            D[ m.LSB[0] ][ m.LSB[1] ],
+            D[ m.LSB_msb[0] ][ m.LSB_msb[1] ],
+            mask)
+    };
+
+    matrix = (source, dest) => {
+        return (
+            <div>
+                {matrix[source][dest].name}: {this.v(matrix[source][dest])}
+            </div>
+        );
     };
 
     render() {
@@ -42,8 +60,8 @@ class ComputedValues extends Component {
 
         return (
             <div className="computedvalues">
-                {matrix.cycenv.pitch.name}: {this.v(matrix.cycenv.pitch)}
-                {matrix.lfo.pitch.name}: {this.v(matrix.lfo.pitch)}
+                {this.matrix('cycenv', 'pitch')}
+                {this.matrix('lfo', 'pitch')}
             </div>
         );
 

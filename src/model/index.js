@@ -72,15 +72,15 @@ export const matrix = {
     cycenv: {
         pitch: {
             name: 'Cyclic Env --> Pitch',
-            LSB_msb: [22, 8, 0b01100000],   // for each byte: [row, column, mask]   mask if optional, default is 0x7F
+            MSB: [22, 15],
             LSB: [22, 14],
-            MSB: [22, 15]
+            LSB_msb: [22, 8, 0b01100000]   // for each byte: [row, column, mask]   mask if optional, default is 0x7F
         },
         wave: {
             name: '',
-            LSB_msb: [24, 2, 0b00000110],
-            LSB: [24, 3],
-            MSB: [24, 0]
+            MSB: [22, 15],
+            LSB: [22, 14],
+            LSB_msb: [22, 8]
         },
         timbre: {
             name: '',
@@ -134,9 +134,11 @@ export const matrix = {
         }
     },
     lfo: {
-        pitch: {
+        pitch: {    // OK
             name: 'LFO -> Pitch',
-            LSB_msb: [23, 0], LSB: [23, 1], MSB: [23, 2]
+            MSB: [23, 2],
+            LSB: [23, 1],
+            LSB_msb: [23, 0]
         },
         wave: {
             name: '',

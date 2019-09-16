@@ -48,7 +48,7 @@ class App extends Component {
                 <Midi messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
                 <div className="App">
                     <MidiPorts messageType={MESSAGE_TYPE} onMidiInputEvent={this.handleMidiInputEvent} />
-                    <div className="row">
+                    <div className="row v-spaced">
                         <PresetSelector />
                         <Actions />
                     </div>

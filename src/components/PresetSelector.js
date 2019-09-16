@@ -19,7 +19,7 @@ class PresetSelector extends Component {
 
     render() {
         return (
-            <div>
+            <div className="preset-selector">
                 preset: <input type="number" id="preset" name="preset" min="1" max="256" value={this.props.state.preset.current} onChange={this.setPreset} />
             </div>
         );
