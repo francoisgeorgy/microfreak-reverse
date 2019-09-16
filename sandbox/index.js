@@ -24,11 +24,20 @@ function matrixValue(b1, b2, b3) {
         console.log('negative number');
     }
 
-    const high = (b3 & 0x7f) << 8;      console.log(`${h(b3)} ${b(b3)} --> ${b(high, 16)}`);
-    const mid  = b2 & 0x7f;             console.log(`${h(b2)} ${b(b2)} --> ${b(mid, 16)}`);
-    const low = (b1 & 0x01) << 7;       console.log(`${h(b1)} ${b(b1)} --> ${b(low, 16)}`);
+    const high = (b3 & 0x7f) << 8;      console.log(`${h(b3)} ${b(b3)} --> ${b(high, 16)}`);    // MSB
+    const mid  = b2 & 0x7f;             console.log(`${h(b2)} ${b(b2)} --> ${b(mid, 16)}`);     // LSB
+    const low = (b1 & 0x01) << 7;       console.log(`${h(b1)} ${b(b1)} --> ${b(low, 16)}`);     // msb of LSB
     const n = high + mid + low;         console.log(`            --> ${b(n, 16)}`);
                                         // console.log(h(b3), h(b2), h(b1), h(high), h(mid), h(low), h(v));
+/*
+    let high = (b3 & 0x7f) << 1;      console.log(`${h(b3)} ${b(b3)} --> ${b(high, 16)}`);      // make room for lsb
+    high = high + (b1 & 0x01);          console.log(`            --> ${b(high, 16)}`);          // add lsb
+    high = high << 7;                   console.log(`            --> ${b(high, 16)}`);
+    const mid  = (b2 & 0x7f) ;             console.log(`${h(b2)} ${b(b2)} --> ${b(mid, 16)}`);
+    // const low = (b1 & 0x01);       console.log(`${h(b1)} ${b(b1)} --> ${b(low, 16)}`);
+    const n = high + mid;         console.log(`            --> ${b(n, 16)}`);
+    // console.log(h(b3), h(b2), h(b1), h(high), h(mid), h(low), h(v));
+*/
 
     let f;
     if (neg) {
@@ -43,6 +52,26 @@ function matrixValue(b1, b2, b3) {
 }
 
 console.log(matrixValue(0x01, 0x40, 0x4c));     // 60.0
-console.log(matrixValue(0x00, 0x5f, 0x41));     // 51.1
-console.log(matrixValue(0x02, 0x41, 0x33));     // -60.0
-console.log(matrixValue(0x02, 0x61, 0x01));     // -98.9
+// console.log(matrixValue(0x00, 0x5f, 0x41));     // 51.1
+// console.log(matrixValue(0x02, 0x41, 0x33));     // -60.0
+// console.log(matrixValue(0x02, 0x61, 0x01));     // -98.9
+
+
+/*
+
+4C 01001100 --> 01001100 00000000
+40 01000000 --> 00000000 01000000
+01 00000001 --> 00000000 10000000
+            --> 01001100 11000000
+            --> 599.609375 5996
+
+4C 01001100 --> 00000000 10011000
+            --> 00000000 10011001
+            --> 01001100 10000000
+40 01000000 --> 00000000 01000000
+            --> 01001100 11000000
+            --> 599.609375 5996
+60
+
+
+ */
