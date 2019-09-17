@@ -1,7 +1,7 @@
 import {decorate, observable} from 'mobx';
 import {PORT_INPUT, PORT_OUTPUT} from "../components/Midi";
 import {portById} from "../utils/midi";
-import {DEFAULT_msb_mask, DEFAULT_sign_mask, matrixValue} from "../model";
+import {DEFAULT_msb_mask, DEFAULT_sign_mask, multibytesValue} from "../model";
 // import parseMidi from "parse-midi";
 // import {ds, hs} from "../utils/hexstring";
 
@@ -163,22 +163,39 @@ class State {
         this.dataRef = [];
     }
 
-    multibytesValue(m) {
+    modMatrixValue(m) {
 
         // const D = this.props.state.data;
         // console.log("m", m, D.length);
-        if (this.data.length < 39) return;
+        if (this.data.length < 39) return;  //FIXME
 
         const mask_msb = m.msb.length === 3 ? m.msb[2] : DEFAULT_msb_mask;
         const mask_sign = m.sign.length === 3 ? m.sign[2] : DEFAULT_sign_mask;
 
-        return matrixValue(
+        return multibytesValue(
             this.data[ m.MSB[0] ][ m.MSB[1] ],
             this.data[ m.LSB[0] ][ m.LSB[1] ],
             this.data[ m.msb[0] ][ m.msb[1] ],
             mask_msb,
             this.data[ m.sign[0] ][ m.sign[1] ],
             mask_sign)
+    }
+
+    controlValue(m) {
+
+        // const D = this.props.state.data;
+        // console.log("m", m, D.length);
+        if (this.data.length < 39) return;  //FIXME
+
+        const mask_msb = m.msb.length === 3 ? m.msb[2] : DEFAULT_msb_mask;
+        // const mask_sign = m.sign.length === 3 ? m.sign[2] : DEFAULT_sign_mask;
+
+        return multibytesValue(
+            this.data[ m.MSB[0] ][ m.MSB[1] ],
+            this.data[ m.LSB[0] ][ m.LSB[1] ],
+            this.data[ m.msb[0] ][ m.msb[1] ],
+            mask_msb,
+            0, 0)
     }
 
 }

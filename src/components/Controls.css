@@ -1,0 +1,7 @@
+.controls {
+    font-size: 85%;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 10px;
+    justify-content: start;
+}

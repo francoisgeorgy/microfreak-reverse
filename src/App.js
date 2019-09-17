@@ -9,7 +9,8 @@ import Actions from "./components/Actions";
 import DeltaList from "./components/DeltaList";
 import './App.css';
 import {hs} from "./utils/hexstring";
-import ComputedValues from "./components/ComputedValues";
+import ModMatrix from "./components/ModMatrix";
+import Controls from "./components/Controls";
 
 const MESSAGE_TYPE = "sysex";
 // const MESSAGE_TYPE = "midimessage";
@@ -54,9 +55,16 @@ class App extends Component {
                         <PresetSelector />
                         <Actions />
                     </div>
-                    <ComputedValues />
-                    <DeltaList />
-                    <Data />
+                    <div className="cols">
+                        <div>
+                            <DeltaList />
+                            <Data />
+                        </div>
+                        <div>
+                            <ModMatrix />
+                            <Controls />
+                        </div>
+                    </div>
                 </div>
             </Provider>
         );

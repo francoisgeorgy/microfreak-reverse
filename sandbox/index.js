@@ -29,11 +29,11 @@ function getRightShift(v) {
     return i;
 }
 
-// matrixValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
-// function matrixValue(MSB, LSB, LSB_msb, mask=0x03) {
+// multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
+// function multibytesValue(MSB, LSB, LSB_msb, mask=0x03) {
 function matrixValue(MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) {
 
-    // console.log("matrixValue", h(MSB), h(LSB), h(LSB_msb), mask);
+    // console.log("multibytesValue", h(MSB), h(LSB), h(LSB_msb), mask);
 
     const j = getRightShift(mask_sign);
     const sign_bit = (sign_byte >> j) & 0x01;

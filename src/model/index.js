@@ -3,15 +3,20 @@
 import {h} from "../utils/hexstring";
 import {getRightShift} from "../utils/bits-utils";
 
-export const matrixValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
+export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
 
-    console.log("matrixValue", h(MSB), h(LSB), h(msb_byte), mask_sign, mask_msb);
+    // if mask_sign is 0, sign is ignored
 
-    const j = getRightShift(mask_sign);
-    const sign_bit = (sign_byte >> j) & 0x01;
+    console.log("multibytesValue", h(MSB), h(LSB), h(msb_byte), mask_sign, mask_msb);
+
+    let sign_bit = 0;
+    if (mask_sign > 0) {
+        const j = getRightShift(mask_sign);
+        sign_bit = (sign_byte >> j) & 0x01;
+    }
 
     const k = getRightShift(mask_msb);
-    const msb_bit = (msb_byte >> j) & 0x01;
+    const msb_bit = (msb_byte >> k) & 0x01;
 
     // const neg = msb & 0x02;
     const high = (MSB & 0x7f) << 8;
@@ -34,62 +39,6 @@ const _0_100 = function (v) {
 };
 
 
-const _osc_type = function (v) {
-    switch (v) {
-        case 10:
-            return "Basic Waves";
-        case 21:
-            return "Superwave";
-        case 32:
-            return "Wavetable";
-        case 42:
-            return "Harmonic";
-        case 53:
-            return "KarplusStrong";
-        case 64:
-            return "V. Analog";
-        case 74:
-            return "Waveshaper";
-        case 85:
-            return "Two Op. FM";
-        case 95:
-            return "Formant";
-        case 106:
-            return "Chords";
-        case 117:
-            return "Speech";
-        case 127:
-            return "Modal";
-        default:
-            return v;
-    }
-};
-
-
-export const control = {
-    "glide" : 5,
-    "osc_type" : 9,
-    "osc_wave" : 10,
-    "osc_timbre" : 12,
-    "osc_shape" : 13,
-    "filter_cutoff" : 23,
-    "filter_resonance" : 83,
-    "cycling_env_rise" : 102,
-    "cycling_env_fall" : 103,
-    "cycling_env_hold" : 28,
-    "cycling_env_amount" : 24,
-    "arp_seq_rate_free" : 91,
-    "arp_seq_rate_sync" : 92,
-    "lfo_rate_free" : 93,
-    "lfo_rate_sync" : 94,
-    "envelope_attack" : 105,
-    "envelope_decay" : 106,
-    "envelope_sustain" : 29,
-    "keyboard_hold_button" : 64,
-    "keyboard_spice" : 2,
-    // "Keyboard Pitch Bend	Pitchbend,
-    // "Keyboard Pressure	Aftertouch,
-};
 
 // default mask for LSB and MSB : 0x7f
 // default mask for MSB_lsb : 0x01
@@ -111,6 +60,28 @@ export const CUTOFF = Symbol();
 export const ASSIGN1 = Symbol();
 export const ASSIGN2 = Symbol();
 export const ASSIGN3 = Symbol();
+
+export const GLIDE = Symbol();
+export const OSC_TYPE = Symbol();
+export const OSC_WAVE = Symbol();
+export const OSC_TIMBRE = Symbol();
+export const OSC_SHAPE = Symbol();
+export const FILTER_CUTOFF = Symbol();
+export const FILTER_RESONANCE = Symbol();
+export const CYCLING_ENV_RISE = Symbol();
+export const CYCLING_ENV_FALL = Symbol();
+export const CYCLING_ENV_HOLD = Symbol();
+export const CYCLING_ENV_AMOUNT = Symbol();
+export const ARP_SEQ_RATE_FREE = Symbol();
+export const ARP_SEQ_RATE_SYNC = Symbol();
+export const LFO_RATE_FREE = Symbol();
+export const LFO_RATE_SYNC = Symbol();
+export const ENVELOPE_ATTACK = Symbol();
+export const ENVELOPE_DECAY = Symbol();
+export const ENVELOPE_SUSTAIN = Symbol();
+export const KEYBOARD_HOLD_BUTTON = Symbol();
+export const KEYBOARD_SPICE = Symbol();
+
 
 // names (labels)
 export const MOD_SOURCE = {
@@ -360,85 +331,219 @@ export const MOD_MATRIX = {
     }
 };
 
-export const control_details = {
-    [control.glide]: {
-        name: "Glide",
-        mapping: null
+export const CONTROL = {
+    [GLIDE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 5,
+        mapping: null,
+        name: "Glide"
     },
-    [control.osc_type]: {
-        name: "Type",
-        mapping: _osc_type
+    [OSC_TYPE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 9,
+        mapping: null,  //_osc_type,
+        name: "Type"
     },
-    [control.osc_wave]: {
-        name: "Wave",
-        mapping: null
+    [OSC_WAVE]: {
+        MSB: [0, 27],
+        LSB: [0, 26],
+        //sign: [0, 0, 0x02],
+        msb: [0, 24, 0x01],
+        cc: 10,
+        mapping: null,
+        name: 'Wave'
     },
-    [control.osc_timbre]: {
-        name: "Timbre",
-        mapping: null
+    [OSC_TIMBRE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 12,
+        mapping: null,
+        name: 'Timbre'
     },
-    [control.osc_shape]: {
-        name: "Shape",
-        mapping: null
+    [OSC_SHAPE]: {
+        MSB: [1, 20],
+        LSB: [1, 19],
+        //sign: [0, 0, 0x02],
+        msb: [1, 16, 0x02],
+        cc: 13,
+        mapping: null,
+        name: 'Shape'
     },
-    [control.filter_cutoff]: {
-        name: "Cutoff",
-        mapping: null
+    [FILTER_CUTOFF]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 23,
+        mapping: null,
+        name: 'Cutoff'
     },
-    [control.filter_resonance]: {
-        name: "Resonance",
-        mapping: null
+    [FILTER_RESONANCE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 83,
+        mapping: null,
+        name: 'Resonance'
     },
-    [control.cycling_env_rise]: {
-        name: "Rise",
-        mapping: _0_100
+    [CYCLING_ENV_RISE]: {
+        MSB: [4, 6],
+        LSB: [4, 5],
+        //sign: [0, 0, 0x02],
+        msb: [4, 0, 0x10],
+        cc: 102,
+        mapping: null,  //_0_100,
+        name: 'Rise'
     },
-    [control.cycling_env_fall]: {
-        name: "Fall",
-        mapping: null
+    [CYCLING_ENV_FALL]: {
+        MSB: [5, 2],
+        LSB: [5, 1],
+        //sign: [0, 0, 0x02],
+        msb: [5, 0, 0x01],
+        cc: 103,
+        mapping: null,
+        name: 'Fall'
     },
-    [control.cycling_env_hold]: {
-        name: "Hold",
-        mapping: null
+    [CYCLING_ENV_HOLD]: {
+        MSB: [5, 12],
+        LSB: [5, 11],
+        //sign: [0, 0, 0x02],
+        msb: [5, 8, 0x04],
+        cc: 28,
+        mapping: null,
+        name: 'Hold'
     },
-    [control.cycling_env_amount]: {
-        name: "Amount",
-        mapping: null
+    [CYCLING_ENV_AMOUNT]: {
+        MSB: [6, 6],
+        LSB: [6, 5],
+        //sign: [0, 0, 0x02],
+        msb: [6, 0, 0x10],
+        cc: 24,
+        mapping: null,
+        name: 'Amount'
     },
-    [control.arp_seq_rate_free]: {
-        name: "Rate free",
-        mapping: null
+    [ARP_SEQ_RATE_FREE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 91,
+        mapping: null,
+        name: 'Rate free'
     },
-    [control.arp_seq_rate_sync]: {
-        name: "Rate sync",
-        mapping: null
+    [ARP_SEQ_RATE_SYNC]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 92,
+        mapping: null,
+        name: 'Rate sync'
     },
-    [control.lfo_rate_free]: {
-        name: "Rate free",
-        mapping: null
+    [LFO_RATE_FREE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 93,
+        mapping: null,
+        name: 'Rate free'
     },
-    [control.lfo_rate_sync]: {
-        name: "Rate sync",
-        mapping: null
+    [LFO_RATE_SYNC]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 94,
+        mapping: null,
+        name: 'Rate sync'
     },
-    [control.envelope_attack]: {
-        name: "Attack",
-        mapping: null
+    [ENVELOPE_ATTACK]: {
+        MSB: [14, 29],
+        LSB: [14, 28],
+        // sign: [1, 0x02],
+        msb: [14, 24, 0x08],
+        cc: 105,
+        mapping: null,
+        name: 'Attack'
     },
-    [control.envelope_decay]: {
-        name: "Decay/Rel",
-        mapping: null
+    [ENVELOPE_DECAY]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 106,
+        mapping: null,
+        name: 'Decay/Rel'
     },
-    [control.envelope_sustain]: {
-        name: "Sustain",
-        mapping: null
+    [ENVELOPE_SUSTAIN]: {
+        MSB: [15, 23],
+        LSB: [15, 22],
+        //sign: [0, 0, 0x02],
+        msb: [15, 16, 0x20],
+        cc: 29,
+        mapping: null,
+        name: 'Sustain'
     },
-    [control.keyboard_hold_button]: {
-        name: "Hold",
-        mapping: null
+    [KEYBOARD_HOLD_BUTTON]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 64,
+        mapping: null,
+        name: 'Hold'
     },
-    [control.keyboard_spice]: {
-        name: "Spice",
-        mapping: null
+    [KEYBOARD_SPICE]: {
+        MSB: [0, 0],
+        LSB: [0, 0],
+        //sign: [0, 0, 0x02],
+        msb: [0, 0, 0x01],
+        cc: 2,
+        mapping: null,
+        name: 'Spice'
     }
 };
+
+/*
+
+const _osc_type = function (v) {
+    switch (v) {
+        case 10:
+            return "Basic Waves";
+        case 21:
+            return "Superwave";
+        case 32:
+            return "Wavetable";
+        case 42:
+            return "Harmonic";
+        case 53:
+            return "KarplusStrong";
+        case 64:
+            return "V. Analog";
+        case 74:
+            return "Waveshaper";
+        case 85:
+            return "Two Op. FM";
+        case 95:
+            return "Formant";
+        case 106:
+            return "Chords";
+        case 117:
+            return "Speech";
+        case 127:
+            return "Modal";
+        default:
+            return v;
+    }
+};
+*/
