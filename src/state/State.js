@@ -23,6 +23,7 @@ class State {
         current_counter: 0
     };
 
+    lock = false;
 
     data = [];
     dataRef = [];   // copy used as reference for comparisons
@@ -187,7 +188,8 @@ decorate(State, {
     midi: observable,
     preset: observable,
     data: observable,
-    dataRef: observable
+    dataRef: observable,
+    lock: observable
 });
 
 export const state = new State();

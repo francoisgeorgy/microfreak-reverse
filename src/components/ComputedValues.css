@@ -1,6 +1,6 @@
 .mod-matrix {
     display: grid;
-    grid-template-columns: repeat(8, auto);
+    grid-template-columns: repeat(8, minmax(4rem, auto));
     justify-content: start;
     font-size: 85%;
 }

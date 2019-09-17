@@ -9,14 +9,14 @@ class Data extends Component {
         return (
             <Fragment>
                 <div>
-                    <h4>{S.preset.current} [{Math.round(S.preset.current_counter / 40 * 100)}%]</h4>
+                    <h4>{S.preset.current}:</h4>
                     {S.dataRef.length === 0 && <Bytes bytes={S.data} />}
                     {S.dataRef.length > 0 && <DataDelta />}
                 </div>
-                <div>
+                {S.dataRef.length > 0 && <div>
                     <h4>ref {S.preset.reference}:</h4>
                     <Bytes bytes={S.dataRef} />
-                </div>
+                </div>}
             </Fragment>
         );
     }

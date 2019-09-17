@@ -86,6 +86,11 @@ export async function readPreset() {
         return;
     }
 
+    if (state.lock) {
+        if (global.dev) console.log("readPreset: locked");
+        return;
+    }
+
     if (global.dev) console.log("readPreset", state.preset.current);
 
     state.data = [];
@@ -97,11 +102,13 @@ export async function readPreset() {
     // const N = 146;
     const N = 40;
 
+    state.lock = true;
     for (let i=0; i < N; i++) {
         // console.log(`sendPresetRequest ${i}`);
         sendPresetRequestData(i);
         state.preset.current_counter++;
         await wait(2 * WAIT_BETWEEN_MESSAGES);
     }
+    state.lock = false;
 
 }

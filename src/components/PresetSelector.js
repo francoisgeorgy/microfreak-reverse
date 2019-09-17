@@ -9,17 +9,23 @@ class PresetSelector extends Component {
 
     state = {
         p: '1'
-    }
+    };
 
     setPreset = (e) => {
-        this.setState({p: e.target.value});
-        if (!e.target.value) return;
-        const v = parseInt(e.target.value, 10);
-        if (v > 256) return;
-        this.props.state.preset.current = v;
-        // console.log("setPreset", this.props.state.preset.current, this.props.state.preset.reference);
-        // this.selectPreset(this.props.state.preset.current - 1);
-        // sendPC(this.props.state.preset.current - 1);
+        let s = e.target.value;
+        if (s) {
+            let v = parseInt(s, 10);
+            if (v > 256) {
+                s = '256';
+                v = 256;
+            }
+            if (v < 1) {
+                s = '1';
+                v = 1;
+            }
+            this.props.state.preset.current = v;
+        }
+        this.setState({p: s});
     };
 
     render() {

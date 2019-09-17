@@ -64,6 +64,7 @@ class Actions extends Component {
                 <button type="button" onClick={this.updateRefAndRead}>Update ref and read preset {S.preset.current}</button>
                 <button type="button" onClick={this.updateRef}>Update ref</button>
                 <button type="button" onClick={this.clearRef}>Clear ref</button>
+                {/*{S.preset.current_counter > 0 && <span> [{Math.round(S.preset.current_counter / 40 * 100)}%]</span>}*/}
             </div>
         );
     }
