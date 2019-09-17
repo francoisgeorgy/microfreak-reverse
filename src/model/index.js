@@ -66,163 +66,267 @@ export const control = {
 // default mask for MSB_lsb : 0x01
 // default mask for sign in MSB_lsb : 0x02
 
+export const DEFAULT_msb_mask = 0x01;
+export const DEFAULT_sign_mask = 0x02;
 
+export const CYC_ENV = Symbol();
+export const ENV = Symbol();
+export const PRESS = Symbol();
+export const KEY_ARP = Symbol();
+export const LFO = Symbol();
+
+export const PITCH = Symbol();
+export const WAVE = Symbol();
+export const TIMBRE = Symbol();
+export const CUTOFF = Symbol();
+export const ASSIGN1 = Symbol();
+export const ASSIGN2 = Symbol();
+export const ASSIGN3 = Symbol();
+
+// names (labels)
+export const MOD_SOURCE = {
+    [CYC_ENV] : 'Cyclic Env',
+    [ENV]: 'Env',
+    [LFO]: 'LFO',
+    [PRESS]: 'Pressure',
+    [KEY_ARP]: 'Key/Arp'
+};
+
+// names (labels)
+export const MOD_DESTINATION = {
+    [PITCH]: 'Pitch',
+    [WAVE]: 'Wave',
+    [TIMBRE]: 'Timbre',
+    [CUTOFF]: 'Cutoff',
+    [ASSIGN1]: 'Assign 1',
+    [ASSIGN2]: 'Assign 2',
+    [ASSIGN3]: 'Assign 3'
+};
+
+// [row, col] for data receives when reading preset. Data does not include sysex header, sysex footer, man. id and constant data header
 export const matrix = {
     // TODO: nibble
-    cycenv: {
-        pitch: {
-            name: 'Cyclic Env --> Pitch',
+    [CYC_ENV]: {
+        [PITCH]: {
             MSB: [22, 15],
             LSB: [22, 14],
-            LSB_msb: [22, 8, 0b01100000]   // for each byte: [row, column, mask]   mask if optional, default is 0x7F
+            msb: [22, 8, 0x20],
+            sign: [22, 8, 0x40]
         },
-        wave: {
-            name: '',
-            MSB: [22, 15],
-            LSB: [22, 14],
-            LSB_msb: [22, 8]
+        [WAVE]: {
+            MSB: [24, 3],
+            LSB: [24, 2],
+            msb: [24, 0, 0x02],
+            sign: [24, 0, 0x04]
         },
-        timbre: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [TIMBRE]: {
+            MSB: [25, 22],
+            LSB: [25, 21],
+            msb: [25, 16, 0x10],
+            sign: [25, 16, 0x20]
         },
-        cutoff: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [CUTOFF]: {
+            MSB: [27, 10],
+            LSB: [27, 9],
+            msb: [27, 8, 0x01],
+            sign: [27, 8, 0x02]
         },
-        assign1: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN1]: {
+            MSB: [28, 29],
+            LSB: [28, 28],
+            msb: [28, 24, 0x08],
+            sign: [28, 24, 0x10]
         },
-        assign2: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN2]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign3: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN3]: {
+            MSB: [0, ],
+            LSB: [0, ],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         }
     },
-    env: {
-        pitch: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+    [ENV]: {
+        [PITCH]: {
+            MSB: [22, 25],
+            LSB: [22, 23],
+            msb: [22, 16, 0x01],
+            sign: [22, 16, 0x02]
         },
-        wave: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [WAVE]: {
+            MSB: [24, 3],
+            LSB: [24, 2],
+            msb: [24, 0, 0x02],
+            sign: [24, 0, 0x04]
         },
-        timbre: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [TIMBRE]: {
+            MSB: [25, 31],
+            LSB: [25, 30],
+            msb: [25, 24, 0x20],
+            sign: [25, 24, 0x40]
         },
-        cutoff: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [CUTOFF]: {
+            MSB: [27, 19],
+            LSB: [27, 18],
+            msb: [27, 16, 0x02],
+            sign: [27, 16, 0x04]
         },
-        assign1: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN1]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign2: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN2]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign3: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN3]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         }
     },
-    lfo: {
-        pitch: {    // OK
-            name: 'LFO -> Pitch',
+    [LFO]: {
+        [PITCH]: {    // OK
             MSB: [23, 2],
             LSB: [23, 1],
-            LSB_msb: [23, 0]
+            msb: [23, 0]
         },
-        wave: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [WAVE]: {
+            MSB: [24, 21],
+            LSB: [24, 20],
+            msb: [24, 16, 0x04],
+            sign: [24, 16, 0x08]
         },
-        timbre: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [TIMBRE]: {
+            MSB: [26, 9],
+            LSB: [26, 7],
+            msb: [26, 1, 0x02],
+            sign: [26, 1, 0x04]
         },
-        cutoff: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [CUTOFF]: {
+            MSB: [27, 28],
+            LSB: [27, 27],
+            msb: [27, 24, 0x02],
+            sign: [27, 24, 0x04]
         },
-        assign1: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN1]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign2: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN2]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign3: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN3]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         }
     },
-    press: {
-        pitch: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+    [PRESS]: {
+        [PITCH]: {
+            MSB: [23, 11],
+            LSB: [23, 10],
+            msb: [23, 8, 0x02],
+            sign: [23, 8, 0x04]
+
         },
-        wave: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [WAVE]: {
+            MSB: [24, 30],
+            LSB: [24, 29],
+            msb: [24, 24, 0x10],
+            sign: [24, 24, 0x20]
+
         },
-        timbre: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [TIMBRE]: {
+            MSB: [26, 18],
+            LSB: [26, 17],
+            msb: [26, 16, 0x01],
+            sign: [26, 16, 0x02]
+
         },
-        cutoff: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [CUTOFF]: {
+            MSB: [28, 5],
+            LSB: [28, 4],
+            msb: [28, 0, 0x08],
+            sign: [28, 0, 0x10]
+
         },
-        assign1: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN1]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign2: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN2]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign3: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN3]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         }
     },
-    key_arp: {
-        pitch: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+    [KEY_ARP]: {
+        [PITCH]: {
+            MSB: [23, 20],
+            LSB: [23, 19],
+            msb: [23, 16, 0x04],
+            sign: [23, 16, 0x08]
         },
-        wave: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [WAVE]: {
+            MSB: [25, 7],
+            LSB: [25, 6],
+            msb: [25, 0, 0x20],
+            sign: [25, 0, 0x40]
         },
-        timbre: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [TIMBRE]: {
+            MSB: [26, 27],
+            LSB: [26, 26],
+            msb: [26, 24, 0x02],
+            sign: [26, 24, 0x04]
         },
-        cutoff: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [CUTOFF]: {
+            MSB: [28, 14],
+            LSB: [28, 13],
+            msb: [28, 8, 0x10],
+            sign: [28, 8, 0x20]
         },
-        assign1: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN1]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign2: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN2]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         },
-        assign3: {
-            name: '',
-            LSB_msb: [0, 0], LSB: [0, 0], MSB: [0, 0]
+        [ASSIGN3]: {
+            MSB: [0, 0],
+            LSB: [0, 0],
+            msb: [0, 0, 0x01],
+            sign: [0, 0, 0x02]
         }
     }
 };

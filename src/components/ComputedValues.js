@@ -2,25 +2,28 @@ import {inject, observer} from "mobx-react";
 import React, {Component} from "react";
 import "./DeltaList.css";
 import {h} from "../utils/hexstring";
-import {matrix} from "../model";
+import {CYC_ENV, DEFAULT_msb_mask, DEFAULT_sign_mask, LFO, matrix, PITCH} from "../model";
 import {getRightShift} from "../utils/bits-utils";
 
 class ComputedValues extends Component {
 
-    matrixValue = (MSB, LSB, LSB_msb, mask=0x03) => {
+    matrixValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
 
-        console.log("matrixValue", h(MSB), h(LSB), h(LSB_msb), mask);
+        console.log("matrixValue", h(MSB), h(LSB), h(msb_byte), mask_sign, mask_msb);
 
-        const j = getRightShift(mask);
-        const msb = LSB_msb >> j;
+        const j = getRightShift(mask_sign);
+        const sign_bit = (sign_byte >> j) & 0x01;
 
-        const neg = msb & 0x02;
+        const k = getRightShift(mask_msb);
+        const msb_bit = (msb_byte >> j) & 0x01;
+
+        // const neg = msb & 0x02;
         const high = (MSB & 0x7f) << 8;
         const mid  = LSB & 0x7f;
-        const low = (msb & 0x01) << 7;
+        const low = msb_bit << 7;
         const n = high + mid + low;
         let f;
-        if (neg) {
+        if (sign_bit) {
             const c2 = ((~n) & 0x7fff) + 1;
             f = - (c2 * 1000 / 32768);
         } else {
@@ -34,13 +37,16 @@ class ComputedValues extends Component {
         console.log("m", m, D.length);
         if (D.length < 39) return;
 
-        const mask = m.LSB_msb.length === 3 ? m.LSB_msb[2] : 0x03;
+        const mask_msb = m.msb.length === 3 ? m.msb[2] : DEFAULT_msb_mask;
+        const mask_sign = m.sign.length === 3 ? m.sign[2] : DEFAULT_sign_mask;
 
         return this.matrixValue(
             D[ m.MSB[0] ][ m.MSB[1] ],
             D[ m.LSB[0] ][ m.LSB[1] ],
-            D[ m.LSB_msb[0] ][ m.LSB_msb[1] ],
-            mask)
+            D[ m.msb[0] ][ m.msb[1] ],
+            mask_msb,
+            D[ m.sign[0] ][ m.sign[1] ],
+            mask_sign)
     };
 
     matrix = (source, dest) => {
@@ -60,8 +66,8 @@ class ComputedValues extends Component {
 
         return (
             <div className="computedvalues">
-                {this.matrix('cycenv', 'pitch')}
-                {this.matrix('lfo', 'pitch')}
+                {this.matrix(CYC_ENV, PITCH)}
+                {this.matrix(LFO, PITCH)}
             </div>
         );
 

@@ -29,27 +29,39 @@ function getRightShift(v) {
     return i;
 }
 
-function matrixValue(MSB, LSB, LSB_msb, mask=0x03) {
+// matrixValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
+// function matrixValue(MSB, LSB, LSB_msb, mask=0x03) {
+function matrixValue(MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) {
 
-    console.log("matrixValue", h(MSB), h(LSB), h(LSB_msb), mask);
+    // console.log("matrixValue", h(MSB), h(LSB), h(LSB_msb), mask);
 
-    const j = getRightShift(mask);      console.log(`j: ${j}`);
-    const k = mask >> j;                console.log(`k: ${b(mask)} --> ${b(k)}`);
+    const j = getRightShift(mask_sign);
+    const sign_bit = (sign_byte >> j) & 0x01;
 
-    const msb = LSB_msb >> j;
+    const k = getRightShift(mask_msb);
+    const msb_bit = (msb_byte >> k) & 0x01;
+
+    // const j = getRightShift(mask);      console.log(`j: ${j}`);
+    // const k = mask >> j;                console.log(`k: ${b(mask)} --> ${b(k)}`);
+    //
+    // const msb = LSB_msb >> j;
 
     // const neg = LSB_msb & 0x02;
-    const neg = msb & 0x02;
-    if (neg) {
+    // const neg = msb & 0x02;
+    // if (neg) {
+    if (sign_bit) {
         console.log('negative number');
     }
 
     const high = (MSB & 0x7f) << 8;      console.log(`${h(MSB)} ${b(MSB)} --> ${b(high, 16)}`);    // MSB
     const mid  = LSB & 0x7f;             console.log(`${h(LSB)} ${b(LSB)} --> ${b(mid, 16)}`);     // LSB
-    const low = (msb & 0x01) << 7;       console.log(`${h(msb)} ${b(msb)} --> ${b(low, 16)}`);     // msb of LSB
+    // const low = (msb & 0x01) << 7;       console.log(`${h(msb)} ${b(msb)} --> ${b(low, 16)}`);     // msb of LSB
+    const low = msb_bit << 7;       console.log(`${h(msb_bit)} ${b(msb_bit)} --> ${b(low, 16)}`);     // msb of LSB
     // const low = (LSB_msb & 0x01) << 7;       console.log(`${h(LSB_msb)} ${b(LSB_msb)} --> ${b(low, 16)}`);     // msb of LSB
     const n = high + mid + low;         console.log(`            --> ${b(n, 16)}`);
                                         // console.log(h(b3), h(b2), h(b1), h(high), h(mid), h(low), h(v));
+
+
 /*
     let high = (b3 & 0x7f) << 1;      console.log(`${h(b3)} ${b(b3)} --> ${b(high, 16)}`);      // make room for lsb
     high = high + (b1 & 0x01);          console.log(`            --> ${b(high, 16)}`);          // add lsb
@@ -61,7 +73,7 @@ function matrixValue(MSB, LSB, LSB_msb, mask=0x03) {
 */
 
     let f;
-    if (neg) {
+    if (sign_bit) {
         const c2 = ((~n) & 0x7fff) + 1;       console.log(`            --> ${b(c2, 16)}`, c2);
         f = - (c2 * 1000 / 32768);
     } else {
@@ -72,13 +84,13 @@ function matrixValue(MSB, LSB, LSB_msb, mask=0x03) {
     return Math.round(f) / 10;
 }
 
-console.log(matrixValue(0x4c, 0x40, 0x01));     // 60.0
-// console.log(matrixValue(0x00, 0x5f, 0x41));     // 51.1
-// console.log(matrixValue(0x02, 0x41, 0x33));     // -60.0
-// console.log(matrixValue(0x02, 0x61, 0x01));     // -98.9
+console.log(matrixValue(0x4c, 0x40, 0x01, 0x01, 0x01, 0x02));     // 60.0
+console.log(matrixValue(0x41, 0x5f, 0x0, 0x01, 0x0, 0x02));     // 51.1
+console.log(matrixValue(0x33, 0x41, 0x02, 0x01, 0x02, 0x02));     // -60.0
+console.log(matrixValue(0x7f, 0x60, 0x03, 0x01, 0x03, 0x02));     // -0.1
 
-console.log(matrixValue(0x7f, 0x7f, 0x20, 0b01100000));     // 100.0
-console.log(matrixValue(0x4e, 0x5f, 0x00, 0b01100000));     // 100.0
+console.log(matrixValue(0x7f, 0x7f, 0x20, 0x20, 0x20, 0x40));     // 100.0
+console.log(matrixValue(0x4e, 0x5f, 0x00, 0x20, 0x00, 0x40));     // 61.2 ?
 
 
 /*

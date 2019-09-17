@@ -39,6 +39,8 @@ class App extends Component {
             console.log("do not store answer", hs(e.data));
             return;
         }
+
+        // TODO: move into store:
         state.data.push(Array.from(e.data.slice(9, e.data.length - 1)));    // e.data is UInt8Array
     };
 
