@@ -28,10 +28,15 @@ class PresetSelector extends Component {
         this.setState({p: s});
     };
 
+    go = () => {
+        sendPC(this.props.state.preset.current - 1);
+    };
+
     render() {
         return (
             <div className="preset-selector">
                 preset: <input type="number" id="preset" name="preset" min="1" max="256" value={this.state.p} onChange={this.setPreset} />
+                <button onClick={this.go}>go</button>
             </div>
         );
 

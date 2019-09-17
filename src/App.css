@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.cols > div:nth-child(1) {
+    margin-right: 20px;
+}
+
 .v-spaced {
     margin-top: 10px;
     margin-bottom: 10px;

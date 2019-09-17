@@ -1,6 +1,6 @@
 import {inject, observer} from "mobx-react";
 import React, {Component, Fragment} from "react";
-import {MOD_DESTINATION, MOD_SOURCE} from "../model";
+import {ENV, MOD_DESTINATION, MOD_SOURCE, PITCH} from "../model";
 import {MOD_MATRIX} from "../model";
 import "./ModMatrix.css"
 
@@ -15,6 +15,7 @@ class ModMatrix extends Component {
         );
     };
 */
+/*env-pitch: {this.props.state.modMatrixValue(MOD_MATRIX[ENV][PITCH])}*/
 
     render() {
         // const D = this.props.state.data;
@@ -34,7 +35,6 @@ class ModMatrix extends Component {
                                 <div>{MOD_SOURCE[src]}</div>
                                 {Object.getOwnPropertySymbols(MOD_DESTINATION).map(
                                     (dst, j) => {
-                                        //return (<div>{MOD_SOURCE[src]}-{MOD_DESTINATION[sym]}</div>)
                                         return <div key={j}>{this.props.state.modMatrixValue(MOD_MATRIX[src][dst])}</div>
                                     }
                                 )}

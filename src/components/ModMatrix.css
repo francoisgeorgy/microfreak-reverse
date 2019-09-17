@@ -3,6 +3,7 @@
     grid-template-columns: repeat(8, minmax(4rem, auto));
     justify-content: start;
     font-size: 85%;
+    margin-bottom: 20px;
 }
 
 .mod-matrix > div {

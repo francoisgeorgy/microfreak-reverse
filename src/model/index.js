@@ -7,7 +7,7 @@ export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_si
 
     // if mask_sign is 0, sign is ignored
 
-    console.log("multibytesValue", h(MSB), h(LSB), h(msb_byte), mask_sign, mask_msb);
+    // console.log("multibytesValue", h(MSB), h(LSB), h(msb_byte), h(mask_sign), h(mask_msb));
 
     let sign_bit = 0;
     if (mask_sign > 0) {
@@ -151,17 +151,17 @@ export const MOD_MATRIX = {
         }
     },
     [ENV]: {
-        [PITCH]: {
+        [PITCH]: {              // OK
             MSB: [22, 25],
             LSB: [22, 23],
-            msb: [22, 16, 0x01],
-            sign: [22, 16, 0x02]
+            msb: [22, 16, 0x40],
+            sign: [22, 24, 0x01]
         },
         [WAVE]: {
-            MSB: [24, 3],
-            LSB: [24, 2],
-            msb: [24, 0, 0x02],
-            sign: [24, 0, 0x04]
+            MSB: [24, 12],
+            LSB: [24, 11],
+            msb: [24, 8, 0x40],
+            sign: [24, 8, 0x80]
         },
         [TIMBRE]: {
             MSB: [25, 31],
@@ -198,7 +198,8 @@ export const MOD_MATRIX = {
         [PITCH]: {    // OK
             MSB: [23, 2],
             LSB: [23, 1],
-            msb: [23, 0]
+            msb: [23, 0, 0x01],
+            sign: [23, 0, 0x02]
         },
         [WAVE]: {
             MSB: [24, 21],
@@ -209,8 +210,8 @@ export const MOD_MATRIX = {
         [TIMBRE]: {
             MSB: [26, 9],
             LSB: [26, 7],
-            msb: [26, 1, 0x02],
-            sign: [26, 1, 0x04]
+            msb: [26, 0, 0x40],
+            sign: [26, 8, 0x01]
         },
         [CUTOFF]: {
             MSB: [27, 28],
@@ -243,28 +244,24 @@ export const MOD_MATRIX = {
             LSB: [23, 10],
             msb: [23, 8, 0x02],
             sign: [23, 8, 0x04]
-
         },
         [WAVE]: {
             MSB: [24, 30],
             LSB: [24, 29],
             msb: [24, 24, 0x10],
             sign: [24, 24, 0x20]
-
         },
         [TIMBRE]: {
             MSB: [26, 18],
             LSB: [26, 17],
             msb: [26, 16, 0x01],
             sign: [26, 16, 0x02]
-
         },
         [CUTOFF]: {
             MSB: [28, 5],
             LSB: [28, 4],
             msb: [28, 0, 0x08],
             sign: [28, 0, 0x10]
-
         },
         [ASSIGN1]: {
             MSB: [0, 0],

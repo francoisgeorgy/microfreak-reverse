@@ -62,7 +62,7 @@ class App extends Component {
                         </div>
                         <div>
                             <ModMatrix />
-                            <Controls />
+                            {/*<Controls />*/}
                         </div>
                     </div>
                 </div>
