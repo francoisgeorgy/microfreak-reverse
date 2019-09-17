@@ -1,4 +1,33 @@
 
+// TODO: move into model
+import {h} from "../utils/hexstring";
+import {getRightShift} from "../utils/bits-utils";
+
+export const matrixValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
+
+    console.log("matrixValue", h(MSB), h(LSB), h(msb_byte), mask_sign, mask_msb);
+
+    const j = getRightShift(mask_sign);
+    const sign_bit = (sign_byte >> j) & 0x01;
+
+    const k = getRightShift(mask_msb);
+    const msb_bit = (msb_byte >> j) & 0x01;
+
+    // const neg = msb & 0x02;
+    const high = (MSB & 0x7f) << 8;
+    const mid  = LSB & 0x7f;
+    const low = msb_bit << 7;
+    const n = high + mid + low;
+    let f;
+    if (sign_bit) {
+        const c2 = ((~n) & 0x7fff) + 1;
+        f = - (c2 * 1000 / 32768);
+    } else {
+        f = n * 1000 / 32768;
+    }
+    return Math.round(f) / 10;
+};
+
 
 const _0_100 = function (v) {
     return Math.floor(v / 127 * 100 + 0.5);
@@ -104,7 +133,7 @@ export const MOD_DESTINATION = {
 };
 
 // [row, col] for data receives when reading preset. Data does not include sysex header, sysex footer, man. id and constant data header
-export const matrix = {
+export const MOD_MATRIX = {
     // TODO: nibble
     [CYC_ENV]: {
         [PITCH]: {

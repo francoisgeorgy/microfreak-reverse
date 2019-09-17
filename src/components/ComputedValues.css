@@ -1,0 +1,12 @@
+.mod-matrix {
+    display: grid;
+    grid-template-columns: repeat(8, auto);
+    justify-content: start;
+    font-size: 85%;
+}
+
+.mod-matrix > div {
+    border-bottom: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    padding: 2px 5px;
+}

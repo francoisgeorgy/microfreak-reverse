@@ -9,7 +9,7 @@ class Data extends Component {
         return (
             <Fragment>
                 <div>
-                    <h4>{S.preset.current} [{S.preset.current_counter}]</h4>
+                    <h4>{S.preset.current} [{Math.round(S.preset.current_counter / 40 * 100)}%]</h4>
                     {S.dataRef.length === 0 && <Bytes bytes={S.data} />}
                     {S.dataRef.length > 0 && <DataDelta />}
                 </div>
