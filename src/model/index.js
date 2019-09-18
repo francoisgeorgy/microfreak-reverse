@@ -1,6 +1,4 @@
 
-// TODO: move into model
-import {h} from "../utils/hexstring";
 import {getRightShift} from "../utils/bits-utils";
 
 export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {
@@ -41,11 +39,11 @@ export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_si
 };
 
 
+/*
 const _0_100 = function (v) {
     return Math.floor(v / 127 * 100 + 0.5);
 };
-
-
+*/
 
 // default mask for LSB and MSB : 0x7f
 // default mask for MSB_lsb : 0x01
