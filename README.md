@@ -119,4 +119,55 @@ number it receives.
 
 The number `0x20` right after the `<seq#>` is probably the number of data bytes included in the message. 
 
+Values in sysex
+---------------
+
+Four components:
+
+1. MSB : high byte
+2. LSB : low byte
+3. msb : high bit of LSB
+4. sign bit
+
+These values define the following bits:
+
+    MSB   01111111 00000000        
+    LSB            01111111 
+    msb            10000000
+    sign  10000000 00000000
+    
+Formula for **positive values** (sign=0):
+
+    raw_value = (MSB << 8) + (msb << 7) + LSB       
+
+Formula for **negative values** (sign=1):
+
+    raw_value = (~((MSB << 8) + (msb << 7) + LSB) & 0x7fff) + 1       
+     
+    
+`<<` is shift-left operation. `<< 8` is same as `* 256`. `<< 7` is same as `* 128`.
+
+`~` is inverse operation. `~0110` is `1001`.
+
+`&` is masking operation. `1011 & 0111` is `0011`    
+    
+We do `& 0x7fff` because we work with 15 bits values, not 16.    
+    
+     
+The raw value is mapped to 0.0 to 100.0 with:
+
+    display_value = raw_value * 100 / 32768     
+                                
+If `sign=1` we must have a negative, then do:
+
+    display_value = -display_value                                 
+                                
+To round the value to one decimal, use:
+
+    display_value = Math.round(raw_value * 1000 / 32768) / 10;
+                                
+                                
+                                
+                                
+                                
                                 

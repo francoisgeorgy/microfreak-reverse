@@ -23,14 +23,21 @@ export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_si
     const mid  = LSB & 0x7f;
     const low = msb_bit << 7;
     const n = high + mid + low;
-    let f;
+    // let f;
+    let raw;
     if (sign_bit) {
-        const c2 = ((~n) & 0x7fff) + 1;
-        f = - (c2 * 1000 / 32768);
+        // const c2 = ((~n) & 0x7fff) + 1;
+        // f = - (c2 * 1000 / 32768);
+        raw = -(((~n) & 0x7fff) + 1)
     } else {
-        f = n * 1000 / 32768;
+        // f = n * 1000 / 32768;
+        raw = n;
     }
-    return Math.round(f) / 10;
+
+    // round to one decimal is done with Math.round(n * 10) / 10.
+
+    return Math.round(raw * 1000 / 32768) / 10;
+    // return Math.round(f) / 10;
 };
 
 
