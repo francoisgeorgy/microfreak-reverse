@@ -17,7 +17,8 @@ class DeltaList extends Component {
                         return sysex.map(
                             (byte, b) => {
                                 if (byte !== R[s][b]) {
-                                    return <div key={`${s}${b}`}>{s},{b} {h(byte)} ({h(R[s][b])})</div>
+                                    return <div key={`${s}${b}`}>{s},{b} {h(byte)}</div>
+                                    //return <div key={`${s}${b}`}>{s},{b} {h(byte)} ({h(R[s][b])})</div>
                                 }
                             }
                         );

@@ -11,6 +11,7 @@ import './App.css';
 import {hs} from "./utils/hexstring";
 import ModMatrix from "./components/ModMatrix";
 import Controls from "./components/Controls";
+import Switches from "./components/Switches";
 
 const MESSAGE_TYPE = "sysex";
 // const MESSAGE_TYPE = "midimessage";
@@ -62,7 +63,8 @@ class App extends Component {
                         </div>
                         <div>
                             <ModMatrix />
-                            {/*<Controls />*/}
+                            <Controls />
+                            <Switches />
                         </div>
                     </div>
                 </div>

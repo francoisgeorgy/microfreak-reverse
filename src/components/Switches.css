@@ -1,5 +1,4 @@
-.controls {
-    margin-bottom: 20px;
+.switches {
     font-size: 85%;
     display: grid;
     grid-template-columns: auto auto;
