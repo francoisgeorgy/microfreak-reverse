@@ -1,8 +1,8 @@
 assign1 f cutoff
-    21,4 01
+    21,4 01 cutoff
     21,5 01
 assign1 f reso
-    21,4 02
+    21,4 02 reso
     21,5 01    
 
 asign1 env attack

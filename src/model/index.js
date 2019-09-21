@@ -120,6 +120,48 @@ export const MOD_DESTINATION = {
     [ASSIGN3]: 'Assign 3'
 };
 
+export const MOD_ASSIGN_TARGET = {
+    0: {
+        name: "Oscillator",
+        control: {
+            0: "Type",
+            3: "Timbre",
+            5: "Shape"
+        }
+    },
+    1: {
+        name:"Filter",
+        control: {
+            1: "Cutoff",
+            2: "Resonance"
+        }
+    },
+    2: {
+        "Cyclic env",
+        control: {
+            1: "Rise",
+            3: "Fall",
+            4: "Hold",
+            6: "Amount"
+        }
+    },
+    5: {
+        name: "LFO",
+        control: {
+            0: "Shape",
+            2: "Rate"
+        }
+    },
+    6: {
+        name:"Envelope",
+        control: {
+            1: "Attack",
+            2: "Decay",
+            3: "Sustain"
+        }
+    }
+};
+
 // [row, col] for data receives when reading preset. Data does not include sysex header, sysex footer, man. id and constant data header
 export const MOD_MATRIX = {
     // TODO: nibble
@@ -344,6 +386,22 @@ export const MOD_MATRIX = {
         }
     }
 };
+
+export const MOD_ASSIGN_SLOT = {
+    [ASSIGN1]: {
+        group: [21, 5],
+        control: [21, 4]
+    },
+    [ASSIGN2]: {
+        group: [21, 19],
+        control: [21, 18]
+    },
+    [ASSIGN3]: {
+        group: [22, 1],
+        control: [21, 31]
+    }
+};
+
 
 export const CONTROL = {
     [GLIDE]: {
@@ -651,6 +709,7 @@ export const SWITCH = {
         name: "Octave"
     }
 };
+
 
 /*
 

@@ -1,7 +1,7 @@
 import {decorate, observable} from 'mobx';
 import {PORT_INPUT, PORT_OUTPUT} from "../components/Midi";
 import {portById} from "../utils/midi";
-import {DEFAULT_msb_mask, DEFAULT_sign_mask, multibytesValue} from "../model";
+import {ASSIGN1, DEFAULT_msb_mask, DEFAULT_sign_mask, MOD_ASSIGN, multibytesValue} from "../model";
 // import parseMidi from "parse-midi";
 // import {ds, hs} from "../utils/hexstring";
 
@@ -225,6 +225,28 @@ class State {
 
         return m.mapping ? m.mapping(raw) : raw;
     }
+
+    /**
+     *
+     * @param assign_slot ASSIGN1, ASSIGN2 or ASSIGN3 symbol
+     */
+    modAssignGroup(slot) {
+        if (this.data.length < 39) return;  //FIXME
+        const m = MOD_ASSIGN[slot][group];
+        const group = this.data[ m[0] ][ m[1] ];
+        return group;
+    };
+
+    /**
+     *
+     * @param assign_slot ASSIGN1, ASSIGN2 or ASSIGN3 symbol
+     */
+    modAssignControl(slot) {
+        if (this.data.length < 39) return;  //FIXME
+        const m = MOD_ASSIGN[slot][control];
+        const control = this.data[ m[0] ][ m[1] ];
+        return control;
+    };
 
 }
 
