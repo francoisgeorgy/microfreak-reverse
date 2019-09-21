@@ -1,18 +1,11 @@
 import {decorate, observable} from 'mobx';
 import {PORT_INPUT, PORT_OUTPUT} from "../components/Midi";
-import {portById} from "../utils/midi";
-import {ASSIGN1, DEFAULT_msb_mask, DEFAULT_sign_mask, MOD_ASSIGN, multibytesValue} from "../model";
-// import parseMidi from "parse-midi";
-// import {ds, hs} from "../utils/hexstring";
-
-// const MIDI_CONSOLE_SIZE = 100;
+import {ASSIGN1, DEFAULT_msb_mask, DEFAULT_sign_mask, MOD_ASSIGN_SLOT, multibytesValue} from "../model";
 
 class State {
 
     midi = {
         ports: {},
-        // outputs: {}
-        // input: null         // ID of the connected input port
     };
 
     // preset = new Array(127).fill(0);
@@ -169,7 +162,10 @@ class State {
         // console.log("m", m, D.length);
         if (this.data.length < 39) return;  //FIXME
 
-        // console.log("modMatrixValue", m);
+        if (!m) {
+            console.log("modMatrixValue, no def for", m);
+            return 0;
+        }
 
         const mask_msb = m.msb.length === 3 ? m.msb[2] : DEFAULT_msb_mask;
         const mask_sign = m.sign.length === 3 ? m.sign[2] : DEFAULT_sign_mask;
@@ -189,6 +185,7 @@ class State {
 
         // const D = this.props.state.data;
         // console.log("m", m, D.length);
+
         if (this.data.length < 39) return;  //FIXME
 
         const mask_msb = m.msb.length === 3 ? m.msb[2] : DEFAULT_msb_mask;
@@ -232,7 +229,7 @@ class State {
      */
     modAssignGroup(slot) {
         if (this.data.length < 39) return;  //FIXME
-        const m = MOD_ASSIGN[slot][group];
+        const m = MOD_ASSIGN_SLOT[slot][group];
         const group = this.data[ m[0] ][ m[1] ];
         return group;
     };
@@ -243,7 +240,7 @@ class State {
      */
     modAssignControl(slot) {
         if (this.data.length < 39) return;  //FIXME
-        const m = MOD_ASSIGN[slot][control];
+        const m = MOD_ASSIGN_SLOT[slot][control];
         const control = this.data[ m[0] ][ m[1] ];
         return control;
     };

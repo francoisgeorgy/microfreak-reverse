@@ -1,3 +1,18 @@
+arp rate 30.0 bpm
+    10,4 00
+    10,5 00
+arp rate max
+    10,4 0C
+    10,5 7B
+arp 135bpm
+    10,0 08
+    10,4 06
+    10,5 3D
+arp 30.1bpm
+    10.4 0f    
+
+
+
 assign1 f cutoff
     21,4 01 cutoff
     21,5 01

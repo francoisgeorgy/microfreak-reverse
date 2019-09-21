@@ -63,9 +63,9 @@ export const KEY_ARP = Symbol();
 export const LFO = Symbol();
 
 export const PITCH = Symbol();
-export const WAVE = Symbol();
-export const TIMBRE = Symbol();
-export const CUTOFF = Symbol();
+// export const WAVE = Symbol();
+// export const TIMBRE = Symbol();
+// export const CUTOFF = Symbol();
 export const ASSIGN1 = Symbol();
 export const ASSIGN2 = Symbol();
 export const ASSIGN3 = Symbol();
@@ -109,12 +109,22 @@ export const MOD_SOURCE = {
     [KEY_ARP]: 'Key/Arp'
 };
 
+// TODO: move into config file?
+export const MOD_SOURCE_COLOR = {
+    [CYC_ENV] : '#fff5cf',
+    [ENV]: '#d1e7ff',
+    [LFO]: '#ffd4e5',
+    [PRESS]: '#94ffa5',
+    [KEY_ARP]: '#f0baff'
+};
+
+
 // names (labels)
 export const MOD_DESTINATION = {
     [PITCH]: 'Pitch',
-    [WAVE]: 'Wave',
-    [TIMBRE]: 'Timbre',
-    [CUTOFF]: 'Cutoff',
+    [OSC_WAVE]: 'Wave',
+    [OSC_TIMBRE]: 'Timbre',
+    [FILTER_CUTOFF]: 'Cutoff',
     [ASSIGN1]: 'Assign 1',
     [ASSIGN2]: 'Assign 2',
     [ASSIGN3]: 'Assign 3'
@@ -137,7 +147,7 @@ export const MOD_ASSIGN_TARGET = {
         }
     },
     2: {
-        "Cyclic env",
+        name: "Cyclic env",
         control: {
             1: "Rise",
             3: "Fall",
@@ -172,19 +182,19 @@ export const MOD_MATRIX = {
             msb: [22, 8, 0x20],
             sign: [22, 8, 0x40]
         },
-        [WAVE]: {
+        [OSC_WAVE]: {
             MSB: [24, 3],
             LSB: [24, 2],
             msb: [24, 0, 0x02],
             sign: [24, 0, 0x04]
         },
-        [TIMBRE]: {
+        [OSC_TIMBRE]: {
             MSB: [25, 22],
             LSB: [25, 21],
             msb: [25, 16, 0x10],
             sign: [25, 16, 0x20]
         },
-        [CUTOFF]: {
+        [FILTER_CUTOFF]: {
             MSB: [27, 10],
             LSB: [27, 9],
             msb: [27, 8, 0x01],
@@ -216,19 +226,19 @@ export const MOD_MATRIX = {
             msb: [22, 16, 0x40],
             sign: [22, 24, 0x01]
         },
-        [WAVE]: {
+        [OSC_WAVE]: {
             MSB: [24, 12],
             LSB: [24, 11],
             msb: [24, 8, 0x04],
             sign: [24, 8, 0x08]
         },
-        [TIMBRE]: {
+        [OSC_TIMBRE]: {
             MSB: [25, 31],
             LSB: [25, 30],
             msb: [25, 24, 0x20],
             sign: [25, 24, 0x40]
         },
-        [CUTOFF]: {
+        [FILTER_CUTOFF]: {
             MSB: [27, 19],
             LSB: [27, 18],
             msb: [27, 16, 0x02],
@@ -260,19 +270,19 @@ export const MOD_MATRIX = {
             msb: [23, 0, 0x01],
             sign: [23, 0, 0x02]
         },
-        [WAVE]: {
+        [OSC_WAVE]: {
             MSB: [24, 21],
             LSB: [24, 20],
             msb: [24, 16, 0x08],
             sign: [24, 16, 0x10]
         },
-        [TIMBRE]: {
+        [OSC_TIMBRE]: {
             MSB: [26, 9],
             LSB: [26, 7],
             msb: [26, 0, 0x40],
             sign: [26, 8, 0x01]
         },
-        [CUTOFF]: {
+        [FILTER_CUTOFF]: {
             MSB: [27, 28],
             LSB: [27, 27],
             msb: [27, 24, 0x04],
@@ -304,19 +314,19 @@ export const MOD_MATRIX = {
             msb: [23, 8, 0x02],
             sign: [23, 8, 0x04]
         },
-        [WAVE]: {
+        [OSC_WAVE]: {
             MSB: [24, 30],
             LSB: [24, 29],
             msb: [24, 24, 0x10],
             sign: [24, 24, 0x20]
         },
-        [TIMBRE]: {
+        [OSC_TIMBRE]: {
             MSB: [26, 18],
             LSB: [26, 17],
             msb: [26, 16, 0x01],
             sign: [26, 16, 0x02]
         },
-        [CUTOFF]: {
+        [FILTER_CUTOFF]: {
             MSB: [28, 5],
             LSB: [28, 4],
             msb: [28, 0, 0x08],
@@ -348,19 +358,19 @@ export const MOD_MATRIX = {
             msb: [23, 16, 0x04],
             sign: [23, 16, 0x08]
         },
-        [WAVE]: {
+        [OSC_WAVE]: {
             MSB: [25, 7],
             LSB: [25, 6],
             msb: [25, 0, 0x20],
             sign: [25, 0, 0x40]
         },
-        [TIMBRE]: {
+        [OSC_TIMBRE]: {
             MSB: [26, 27],
             LSB: [26, 26],
             msb: [26, 24, 0x02],
             sign: [26, 24, 0x04]
         },
-        [CUTOFF]: {
+        [FILTER_CUTOFF]: {
             MSB: [28, 14],
             LSB: [28, 13],
             msb: [28, 8, 0x10],
@@ -504,37 +514,35 @@ export const CONTROL = {
         name: 'Amount'
     },
     [ARP_SEQ_RATE_FREE]: {
-        MSB: [0, 0],
-        LSB: [0, 0],
+        MSB: [10, 5],
+        LSB: [10, 4],
         //sign: [0, 0, 0x02],
-        msb: [0, 0, 0x01],
+        msb: [10, 0, 0x08],
         cc: 91,
         mapping: null,
         name: 'Rate free'
     },
     [ARP_SEQ_RATE_SYNC]: {
-        MSB: [0, 0],
-        LSB: [0, 0],
+        MSB: [9, 27],
+        LSB: [9, 26],
         //sign: [0, 0, 0x02],
-        msb: [0, 0, 0x01],
+        msb: [9, 24, 0x02],
         cc: 92,
         mapping: null,
         name: 'Rate sync'
     },
     [LFO_RATE_FREE]: {
-        MSB: [0, 0],
-        LSB: [0, 0],
-        //sign: [0, 0, 0x02],
-        msb: [0, 0, 0x01],
+        MSB: [13, 10],
+        LSB: [13, 9],
+        msb: [13, 8, 0x01],
         cc: 93,
         mapping: null,
         name: 'Rate free'
     },
     [LFO_RATE_SYNC]: {
-        MSB: [0, 0],
-        LSB: [0, 0],
-        //sign: [0, 0, 0x02],
-        msb: [0, 0, 0x01],
+        MSB: [12, 31],
+        LSB: [12, 30],
+        msb: [12, 24, 0x20],
         cc: 94,
         mapping: null,
         name: 'Rate sync'

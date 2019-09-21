@@ -5,6 +5,7 @@ import {PORT_OUTPUT} from "./Midi";
 
 class Actions extends Component {
 
+/*
     sendIdRequest = () => {
         const P = this.props.state.midi.ports;
         for (const port_id of Object.keys(P)) {
@@ -38,6 +39,7 @@ class Actions extends Component {
             }
         }
     };
+*/
 
     updateRef = () => {
         this.props.state.updateRef();
