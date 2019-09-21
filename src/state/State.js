@@ -199,7 +199,7 @@ class State {
             this.data[ m.LSB[0] ][ m.LSB[1] ],
             this.data[ m.msb[0] ][ m.msb[1] ],
             mask_msb,
-            0, 0)
+            0, 0);
 
         //TODO: apply mapping or round value
         return Math.round(raw * 1000 / 32768) / 10;
@@ -221,7 +221,9 @@ class State {
             mask_msb,
             0, 0);
 
-        return Math.round(raw * 1000 / 32768) / 10;
+        // return Math.round(raw * 1000 / 32768) / 10;
+
+        return m.mapping ? m.mapping(raw) : raw;
     }
 
 }

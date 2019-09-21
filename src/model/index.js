@@ -91,9 +91,14 @@ export const ENVELOPE_SUSTAIN = Symbol();
 export const KEYBOARD_HOLD_BUTTON = Symbol();
 export const KEYBOARD_SPICE = Symbol();
 
+// switches
 export const FILTER_TYPE = Symbol();
 export const AMP_MOD = Symbol();
 export const CYCLING_ENV_MODE = Symbol();
+export const LFO_SHAPE = Symbol();
+export const LFO_SYNC = Symbol();
+export const PARAPHONIC = Symbol();
+export const OCTAVE = Symbol();
 
 // names (labels)
 export const MOD_SOURCE = {
@@ -342,16 +347,16 @@ export const MOD_MATRIX = {
 
 export const CONTROL = {
     [GLIDE]: {
-        MSB: [0, 0],
-        LSB: [0, 0],
+        MSB: [6, 23],
+        LSB: [6, 22],
         //sign: [0, 0, 0x02],
-        msb: [0, 0, 0x01],
+        msb: [6, 16, 0x20],
         cc: 5,
         mapping: null,
         name: "Glide"
     },
     [OSC_TYPE]: {
-        MSB: [0, 0],
+        MSB: [0, 14],
         LSB: [0, 0],
         //sign: [0, 0, 0x02],
         msb: [0, 0, 0x01],
@@ -363,7 +368,7 @@ export const CONTROL = {
         MSB: [0, 27],
         LSB: [0, 26],
         //sign: [0, 0, 0x02],
-        msb: [0, 24, 0x01],
+        msb: [0, 24, 0x10],
         cc: 10,
         mapping: null,
         name: 'Wave'
@@ -377,7 +382,7 @@ export const CONTROL = {
         mapping: null,
         name: 'Timbre'
     },
-    [OSC_SHAPE]: {
+    [OSC_SHAPE]: {      // ok
         MSB: [1, 20],
         LSB: [1, 19],
         //sign: [0, 0, 0x02],
@@ -523,11 +528,11 @@ export const CONTROL = {
     }
 };
 
-const _sw2 = function (v) {
-    if (v < 50) {
-        return 'A';
+const _on_off = function (v) {
+    if (v === 0) {
+        return 'off';
     } else {
-        return 'B';
+        return 'on';
     }
 };
 
@@ -541,27 +546,109 @@ const _sw3 = function (v) {
     }
 };
 
+function _filter_type(v) {
+    if (v < 0x3fff) {
+        return 'Low pass ' + v;
+    } else if (v < 0x7fff) {
+        return 'Band pass ' + v;
+    } else {
+        return 'High pass ' + v;
+    }
+}
+
+function _cyc_env_mode(v) {
+    if (v < 0x3fff) {
+        return 'env ' + v;
+    } else if (v < 0x7fff) {
+        return 'run ' + v;
+    } else {
+        return 'loop ' + v;
+    }
+}
+
+function _lfo_shape(v) {
+    if (v < 0x1999) {
+        return 'sine ' + v;
+    } else if (v < 0x3333) {
+        return 'triangle ' + v;
+    } else if (v < 0x4ccc) {
+        return 'saw ' + v;
+    } else if (v < 0x6666) {
+        return 'square  ' + v;
+    } else if (v < 0x7fff) {
+        return 'SnH ' + v;
+    } else {
+        return 'SnHF ' + v;
+    }
+}
+
+function _octave(v) {
+    if (v < 0x1555) {
+        return '-3 ' + v;
+    } else if (v < 0x2aaa) {
+        return '-2 ' + v;
+    } else if (v < 0x4000) {
+        return '-1 ' + v;
+    } else if (v < 0x5555) {
+        return '0 ' + v;
+    } else if (v < 0x6aaa) {
+        return '+1  ' + v;
+    } else if (v < 0x7fff) {
+        return '+2 ' + v;
+    } else {
+        return '+3 ' + v;
+    }
+}
+
 export const SWITCH = {
     [FILTER_TYPE]: {
         MSB: [2, 18],
         LSB: [2, 17],
         msb: [2, 16, 0x01],
-        mapping: _sw3,
+        mapping: _filter_type,
         name: "Filter type"
     },
     [AMP_MOD]: {
         MSB: [14, 17],
         LSB: [14, 15],
         msb: [14, 8, 0x40],
-        mapping: _sw2,
+        mapping: _on_off,
         name: "Amp mod"
     },
     [CYCLING_ENV_MODE]: {
         MSB: [3, 25],
         LSB: [3, 23],
         msb: [3, 16, 0x40],
-        mapping: _sw3,
+        mapping: _cyc_env_mode,
         name: "Cyc env mode"
+    },
+    [LFO_SHAPE]: {
+        MSB: [12, 22],
+        LSB: [12, 21],
+        msb: [12, 16, 0x10],
+        mapping: _lfo_shape,
+        name: "LFO shape"
+    },
+    [LFO_SYNC]: {
+        MSB: [13, 20],
+        LSB: [13, 19],
+        msb: [13, 16, 0x04],
+        mapping: _lfo_shape,
+        name: "LFO sync"
+    },
+    [PARAPHONIC]: {
+        MSB: [16, 23],
+        LSB: [16, 22],
+        msb: [16, 16, 0x20],
+        mapping: _on_off,
+        name: "Paraphonic"
+    },
+    [OCTAVE]: {
+        MSB: [7, 4],
+        LSB: [7, 3],
+        msb: [7, 0, 0x04],
+        mapping: _octave,
+        name: "Octave"
     }
 };
 

@@ -58,6 +58,18 @@ assign1 arp rate
     21,5 04    
     
 osc type
+    0,14 15     superwave
+    0,14 2A     harmo
+    0,14 35     karplusstrong
+    0,14 40     v.analog
+    0,14 4a     waveshaper
+    0,14 55     two-op fm
+    0,14 5f     formant
+    0,14 6a     chords
+    0,14 75     speech
+    0,14 7f     modal
+    
+osc type
     0,8 00 (10)     x
     0,13 55 (2B)    x
     0,14 15 (0A)    maybe
@@ -147,14 +159,68 @@ filter HPF
             
     
         
+paraphonic
+    16,16 20    on
+    16,22 7F
+    16,23 7F
+    16,16 00    off
+    16,22 00
+    16,23 00    
 
+lfo tri
+    12,16 10
+    12,21 19
+    12,22 19
+lfo tri
+    12,16 00
+    12,21 33
+    12,22 33
+lfo square
+    12,16 10
+    12,21 4C
+    12,22 4C
+lfo snh
+    12,16 00
+    12,21 66
+    12,22 66
+lfo snhf
+    12,16 10
+    12,21 7F
+    12,22 7F
 
-
-
-
-
-
-
+lfo sync
+    13,16 04
+    13,19 7F
+    13,20 7F
+lfo free
+    13,16 00
+    13,19 00
+    13,20 00    
+    
+oct +3
+    7,0 04
+    7,3 7F
+    7,4 7F    
+oct +2
+    7,0 04
+    7,3 2A
+    7,4 6A    
+oct +1
+    7,0 00
+    7,3 55
+    7,4 55
+oct -1
+    7,0 04
+    7,3 2A
+    7,4 2A
+oct -2
+    7,0 00
+    7,3 55
+    7,4 15
+oct -3
+    7,0 00
+    7,3 00
+    7,4 00
 
 
 
