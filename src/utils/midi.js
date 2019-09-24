@@ -6,7 +6,7 @@ const wait = ms => new Promise(r => setTimeout(r, ms));
 
 // The MF answer within 2ms typically.
 
-const WAIT_BETWEEN_MESSAGES = 20;
+const WAIT_BETWEEN_MESSAGES = 10;
 
 export function portById(id) {
     if (!id) return null;
