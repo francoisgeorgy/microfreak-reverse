@@ -74,7 +74,7 @@ function sendPresetRequestData(n) {
         if (P[port_id].enabled && P[port_id].type === PORT_OUTPUT) {
             const port = portById(port_id);
             // if (global.dev) console.log(`send ID request to ${port.name} ${port.id}`);
-            port.sendSysex([0x00, 0x20, 0x6b], [0x07, 0x01, n, 0x01, 0x18, 0x00]);  // use sendSysex to bypass the webmidijs internal checks.
+            port.sendSysex([0x00, 0x20, 0x6b], [0x07, 0x01, n & 0x7f, 0x01, 0x18, 0x00]);  // use sendSysex to bypass the webmidijs internal checks.
         }
     }
 }
@@ -99,8 +99,8 @@ export async function readPreset() {
     sendPresetRequest(state.preset.current);
     await wait(2 * WAIT_BETWEEN_MESSAGES);
 
-    // const N = 146;
-    const N = 40;
+    const N = 146;
+    // const N = 40;
 
     state.lock = true;
     for (let i=0; i < N; i++) {
