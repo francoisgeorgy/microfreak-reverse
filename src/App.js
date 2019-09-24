@@ -12,6 +12,7 @@ import {hs} from "./utils/hexstring";
 import ModMatrix from "./components/ModMatrix";
 import Controls from "./components/Controls";
 import Switches from "./components/Switches";
+import ModAssignSlots from "./components/ModAssignSlots";
 
 const MESSAGE_TYPE = "sysex";
 // const MESSAGE_TYPE = "midimessage";
@@ -63,6 +64,7 @@ class App extends Component {
                         </div>
                         <div>
                             <ModMatrix />
+                            <ModAssignSlots />
                             <Controls />
                             <Switches />
                         </div>

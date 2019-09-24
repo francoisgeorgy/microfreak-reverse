@@ -412,7 +412,6 @@ export const MOD_ASSIGN_SLOT = {
     }
 };
 
-
 export const CONTROL = {
     [GLIDE]: {
         MSB: [6, 23],
