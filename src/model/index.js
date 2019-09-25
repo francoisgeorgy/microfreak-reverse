@@ -43,6 +43,36 @@ export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_si
 };
 
 
+const _osc_type = function (v) {
+    switch (v) {
+        case 10:
+            return "Basic Waves";
+        case 21:
+            return "Superwave";
+        case 32:
+            return "Wavetable";
+        case 42:
+            return "Harmonic";
+        case 53:
+            return "KarplusStrong";
+        case 64:
+            return "V. Analog";
+        case 74:
+            return "Waveshaper";
+        case 85:
+            return "Two Op. FM";
+        case 95:
+            return "Formant";
+        case 106:
+            return "Chords";
+        case 117:
+            return "Speech";
+        case 127:
+            return "Modal";
+        default:
+            return v;
+    }
+};
 /*
 const _0_100 = function (v) {
     return Math.floor(v / 127 * 100 + 0.5);
@@ -422,12 +452,11 @@ export const CONTROL = {
         name: "Glide"
     },
     [OSC_TYPE]: {
-        MSB: [0, 14],
-        LSB: [0, 0],
-        //sign: [0, 0, 0x02],
-        msb: [0, 0, 0x01],
+        MSB: null,
+        LSB: [0, 14],
+        msb: null,
         cc: 9,
-        mapping: null,  //_osc_type,
+        mapping: _osc_type,
         name: "Type"
     },
     [OSC_WAVE]: {
@@ -755,37 +784,3 @@ export const SWITCH = {
     }
 };
 
-
-/*
-
-const _osc_type = function (v) {
-    switch (v) {
-        case 10:
-            return "Basic Waves";
-        case 21:
-            return "Superwave";
-        case 32:
-            return "Wavetable";
-        case 42:
-            return "Harmonic";
-        case 53:
-            return "KarplusStrong";
-        case 64:
-            return "V. Analog";
-        case 74:
-            return "Waveshaper";
-        case 85:
-            return "Two Op. FM";
-        case 95:
-            return "Formant";
-        case 106:
-            return "Chords";
-        case 117:
-            return "Speech";
-        case 127:
-            return "Modal";
-        default:
-            return v;
-    }
-};
-*/

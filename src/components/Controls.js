@@ -1,6 +1,6 @@
 import {inject, observer} from "mobx-react";
 import React, {Component, Fragment} from "react";
-import {CONTROL, MOD_DESTINATION, MOD_MATRIX} from "../model";
+import {CONTROL, MOD_DESTINATION, MOD_MATRIX, OSC_TYPE} from "../model";
 import "./Controls.css"
 
 class Controls extends Component {
@@ -14,10 +14,12 @@ class Controls extends Component {
             <div className="controls">
                 {Object.getOwnPropertySymbols(CONTROL).map(
                     (sym, index) => {
+                        const v = this.props.state.controlValue(CONTROL[sym], sym === OSC_TYPE);
+                        const mapped = CONTROL[sym].mapping ? CONTROL[sym].mapping(v) : '';
                         return (
                             <Fragment key={index}>
                                 <div>{CONTROL[sym].name}</div>
-                                <div>{this.props.state.controlValue(CONTROL[sym])}</div>
+                                <div>{v} {mapped}</div>
                             </Fragment>
                         )
                     }
