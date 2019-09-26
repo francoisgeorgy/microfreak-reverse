@@ -621,6 +621,7 @@ export const CONTROL = {
     }
 };
 
+/*
 const _on_off = function (v) {
     if (v === 0) {
         return 'off';
@@ -692,13 +693,14 @@ function _octave(v) {
         return '+3 ' + v;
     }
 }
+*/
 
 export const SWITCH = {
     [FILTER_TYPE]: {
         MSB: [2, 18],
         LSB: [2, 17],
         msb: [2, 16, 0x01],
-        mapping: _filter_type,
+        // mapping: _filter_type,
         values: [
             {name: 'LPF', value: 0},
             {name: 'BPF', value: 0x4000},
@@ -710,10 +712,10 @@ export const SWITCH = {
         MSB: [14, 17],
         LSB: [14, 15],
         msb: [14, 8, 0x40],
-        mapping: _on_off,
+        // mapping: _on_off,
         values: [
-            {name: 'On', value: 0},
-            {name: 'Off', value: 0x7fff}
+            {name: 'Off', value: 0},
+            {name: 'On', value: 0x7fff}
         ],
         name: "Amp mod"
     },
@@ -721,7 +723,7 @@ export const SWITCH = {
         MSB: [3, 25],
         LSB: [3, 23],
         msb: [3, 16, 0x40],
-        mapping: _cyc_env_mode,
+        // mapping: _cyc_env_mode,
         values: [
             {name: 'Env', value: 0},
             {name: 'Run', value: 0x4000},
@@ -733,7 +735,7 @@ export const SWITCH = {
         MSB: [12, 22],
         LSB: [12, 21],
         msb: [12, 16, 0x10],
-        mapping: _lfo_shape,
+        // mapping: _lfo_shape,
         values: [
             {name: 'Sine', value: 0},
             {name: 'Tri', value: 0x1999},
@@ -748,10 +750,10 @@ export const SWITCH = {
         MSB: [13, 20],
         LSB: [13, 19],
         msb: [13, 16, 0x04],
-        mapping: _lfo_shape,
+        // mapping: _lfo_shape,
         values: [
-            {name: 'On', value: 0},
-            {name: 'Off', value: 0x7fff}
+            {name: 'Off', value: 0},
+            {name: 'On', value: 0x7fff}
         ],
         name: "Sync"
     },
@@ -759,10 +761,10 @@ export const SWITCH = {
         MSB: [16, 23],
         LSB: [16, 22],
         msb: [16, 16, 0x20],
-        mapping: _on_off,
+        // mapping: _on_off,
         values: [
-            {name: 'On', value: 0},
-            {name: 'Off', value: 0x7fff}
+            {name: 'Off', value: 0},
+            {name: 'On', value: 0x7fff}
         ],
         name: "Paraphonic"
     },
@@ -770,7 +772,7 @@ export const SWITCH = {
         MSB: [7, 4],
         LSB: [7, 3],
         msb: [7, 0, 0x04],
-        mapping: _octave,
+        // mapping: _octave,
         values: [
             {name: '-3', value: 0},
             {name: '-2', value: 0x1555},
@@ -783,4 +785,3 @@ export const SWITCH = {
         name: "Octave"
     }
 };
-

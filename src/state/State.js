@@ -126,7 +126,7 @@ class State {
      */
     hasInputEnabled() {
         for (const port_id of Object.keys(this.midi.ports)) {
-            if (this.midi.ports[port_id].type === PORT_INPUT && this.midi.ports[port_id].enabled) return true;
+            if (this.midi.ports[port_id] && this.midi.ports[port_id].type === PORT_INPUT && this.midi.ports[port_id].enabled) return true;
         }
         return false;
     }
@@ -136,7 +136,7 @@ class State {
      */
     hasOutputEnabled() {
         for (const port_id of Object.keys(this.midi.ports)) {
-            if (this.midi.ports[port_id].type === PORT_OUTPUT && this.midi.ports[port_id].enabled) return true;
+            if (this.midi.ports[port_id] && this.midi.ports[port_id].type === PORT_OUTPUT && this.midi.ports[port_id].enabled) return true;
         }
         return false;
     }
@@ -223,7 +223,13 @@ class State {
 
         // return Math.round(raw * 1000 / 32768) / 10;
 
-        return m.mapping ? m.mapping(raw) : raw;
+        // return m.mapping ? m.mapping(raw) : raw;
+        for (let entry of m.values) {
+            // console.log("_lfo_shape", v, entry.value, entry.name);
+            if (raw <= entry.value) return entry.name;
+        }
+        return raw;
+
     }
 
     /**
