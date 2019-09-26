@@ -35,7 +35,8 @@ class ModMatrix extends Component {
                                 <div>{MOD_SOURCE[src]}</div>
                                 {Object.getOwnPropertySymbols(MOD_DESTINATION).map(
                                     (dst, j) => {
-                                        return <div key={j}>{this.props.state.modMatrixValue(MOD_MATRIX[src][dst])}</div>
+                                        const r = this.props.state.modMatrixValue(MOD_MATRIX[src][dst], true);
+                                        return <div key={j}>{r.toString(16)} {Math.round(r * 1000 / 32768) / 10}</div>
                                     }
                                 )}
                             </Fragment>

@@ -17,7 +17,7 @@ class Switches extends Component {
                         return (
                             <Fragment key={index}>
                                 <div>{SWITCH[sym].name}</div>
-                                <div>{this.props.state.switchValue(SWITCH[sym])}</div>
+                                <div>{this.props.state.switchValue(SWITCH[sym])} {this.props.state.switchValue(SWITCH[sym], true)}</div>
                             </Fragment>
                         )
                     }

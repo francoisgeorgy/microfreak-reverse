@@ -1,3 +1,56 @@
+cyc env rise shape 0
+    4,16 00
+    4,19 00
+    4,20 00
+cyc env rise shape 100
+    4,16 04
+    4,19 7F
+    4,20 7F    
+cyc env fall shape 0
+    5,24 00
+    5,25 00
+    5,26 00    
+cyc env fall shape 100
+    5,24 01
+    5,25 7F
+    5,26 7F    
+
+arp swing max
+    10,8 40
+    10,15 7F
+    10,17 7F
+arp swing min
+    10,8 00
+    10,15 00
+    10,17 00
+    
+arp on/off
+    9,0 10
+    9,5 7F
+    9,6 7F
+
+seq
+    12,0 08
+    12,4 7F
+    12,5 7F
+    
+arp mod 1   17408
+    9,16 00
+    9,17 00
+    9,18 00
+arp mod 2   10922
+    9,16 01
+    9,17 2A
+    9,18 2A
+arp mod 3   21845
+    9,16 01
+    9,17 55
+    9,18 55
+arp mod 4   32767
+    9,16 01
+    9,17 7F
+    9,18 7F
+
 arp rate 30.0 bpm
     10,4 00
     10,5 00
