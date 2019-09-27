@@ -111,13 +111,29 @@ class State {
         }
     }
 
+    disconnectAllInputPorts(updatePreferences=false) {
+        for (const port_id of Object.keys(this.midi.ports)) {
+            if (this.midi.ports[port_id].type === PORT_INPUT) {
+                this.disconnectPort(portById(port_id));
+            }
+        }
+    }
+
+    disconnectAllOutputPorts(updatePreferences=false) {
+        for (const port_id of Object.keys(this.midi.ports)) {
+            if (this.midi.ports[port_id].type === PORT_OUTPUT) {
+                this.disconnectPort(portById(port_id));
+            }
+        }
+    }
+
     disconnectAllPorts(updatePreferences=false) {
         if (global.dev) console.log('Midi.disconnectAllPorts');
         // for (let port of this.midi.ports) {
         //     this.disconnectPort(port);
         // }
         for (const port_id of Object.keys(this.midi.ports)) {
-            this.disconnectPort(port_id);
+            this.disconnectPort(portById(port_id));
         }
     }
 

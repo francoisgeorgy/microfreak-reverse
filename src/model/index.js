@@ -100,7 +100,6 @@ export const ASSIGN1 = Symbol();
 export const ASSIGN2 = Symbol();
 export const ASSIGN3 = Symbol();
 
-export const GLIDE = Symbol();
 export const OSC_TYPE = Symbol();
 export const OSC_WAVE = Symbol();
 export const OSC_TIMBRE = Symbol();
@@ -121,8 +120,8 @@ export const LFO_RATE_SYNC = Symbol();
 export const ENVELOPE_ATTACK = Symbol();
 export const ENVELOPE_DECAY = Symbol();
 export const ENVELOPE_SUSTAIN = Symbol();
-export const KEYBOARD_HOLD_BUTTON = Symbol();
 export const SPICE = Symbol();
+export const GLIDE = Symbol();
 
 // switches
 export const FILTER_TYPE = Symbol();
@@ -136,6 +135,7 @@ export const ARP_SEQ_MOD = Symbol();
 export const ARP_SEQ_SYNC = Symbol();
 export const PARAPHONIC = Symbol();
 export const OCTAVE = Symbol();
+export const HOLD = Symbol();
 
 // names (labels)
 export const MOD_SOURCE = {
@@ -630,7 +630,7 @@ export const CONTROL = {
         mapping: null,
         name: 'Sustain'
     },
-    // [KEYBOARD_HOLD_BUTTON]: {
+    // [HOLD]: {
     //     MSB: [0, 0],
     //     LSB: [0, 0],
     //     //sign: [0, 0, 0x02],
@@ -851,7 +851,7 @@ export const SWITCH = {
         ],
         name: "Octave"
     },
-    [KEYBOARD_HOLD_BUTTON]: {   //TODO
+    [HOLD]: {   //TODO
         MSB: [0, 0],
         LSB: [0, 0],
         msb: [0, 0, 0],
