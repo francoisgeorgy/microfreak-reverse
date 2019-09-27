@@ -73,15 +73,23 @@ Preset name:
 
 Request:
 
-    F0 00 20 6B 07 01 00 03 00 00 00 00 F7
-    F0 00 20 6B 07 01 00 23 52 00 00 00 00 00 00 00 00 00 00 08 10 44 69 73 72 65 73 70 65 63 74 66 ...
-                         ^^-number of data bytes       ^^-preset   ^^-start of name
-                                                          number   
-                                                       
-    44 69 73 72 65 73 70 65 63 74 66 => D i s r e s p e c t
+    F0 00 20 6B 07 01 <seq#> 03 19 <bank#> <preset#> 00 F7    
+                  
+    03 is number of data bytes    
+    19 is read cmd
     
 Answer:
 
+    code must be 52 after length byte
+
+    F0 00 20 6B 07 01 00 23 52 00 00 00 00 00 00 00 00 00 00 08 10 44 69 73 72 65 73 70 65 63 74 66 ...
+                      ^^ ^^-number of data bytes       ^^-preset   ^^-start of name
+                      ||                                  number   
+                      ++-sequence #
+                                                       
+    44 69 73 72 65 73 70 65 63 74 66 => D i s r e s p e c t
+
+    
 
 Preset request:
 ---------------
