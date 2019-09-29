@@ -120,8 +120,8 @@ export const LFO_RATE_SYNC = Symbol();
 export const ENVELOPE_ATTACK = Symbol();
 export const ENVELOPE_DECAY = Symbol();
 export const ENVELOPE_SUSTAIN = Symbol();
-export const SPICE = Symbol();
 export const GLIDE = Symbol();
+export const SPICE = Symbol();
 
 // switches
 export const FILTER_TYPE = Symbol();
@@ -671,56 +671,64 @@ const _on_off = function (v) {
 
 function _filter_type(v) {
     if (v < 0x3fff) {
-        return 'Low pass ' + v;
+        return 'Low pass';
     } else if (v < 0x7fff) {
-        return 'Band pass ' + v;
+        return 'Band pass';
     } else {
-        return 'High pass ' + v;
+        return 'High pass';
     }
 }
 
 function _cyc_env_mode(v) {
     if (v < 0x3fff) {
-        return 'env ' + v;
+        return 'env';
     } else if (v < 0x7fff) {
-        return 'run ' + v;
+        return 'run';
     } else {
-        return 'loop ' + v;
+        return 'loop';
     }
 }
 
 function _lfo_shape(v) {
-    if (v < 0x1999) {
-        return 'sine ' + v;
-    } else if (v < 0x3333) {
-        return 'triangle ' + v;
-    } else if (v < 0x4ccc) {
-        return 'saw ' + v;
-    } else if (v < 0x6666) {
-        return 'square  ' + v;
-    } else if (v < 0x7fff) {
-        return 'SnH ' + v;
-    } else {
-        return 'SnHF ' + v;
+    for (let entry of SWITCH[LFO_SHAPE].values) {
+        console.log("_lfo_shape", v, entry.value, entry.name);
+        if (v <= entry.value) return entry.name;
     }
+    // if (v < 0x1999) {
+    //     return 'sine';
+    // } else if (v < 0x3333) {
+    //     return 'triangle';
+    // } else if (v < 0x4ccc) {
+    //     return 'saw';
+    // } else if (v < 0x6666) {
+    //     return 'square ';
+    // } else if (v < 0x7fff) {
+    //     return 'SnH';
+    // } else {
+    //     return 'SnHF';
+    // }
 }
 
 function _octave(v) {
-    if (v < 0x1555) {
-        return '-3 ' + v;
-    } else if (v < 0x2aaa) {
-        return '-2 ' + v;
-    } else if (v < 0x4000) {
-        return '-1 ' + v;
-    } else if (v < 0x5555) {
-        return '0 ' + v;
-    } else if (v < 0x6aaa) {
-        return '+1  ' + v;
-    } else if (v < 0x7fff) {
-        return '+2 ' + v;
-    } else {
-        return '+3 ' + v;
+    for (let entry of SWITCH[OCTAVE].values) {
+        console.log("_lfo_shape", v, entry.value, entry.name);
+        if (v <= entry.value) return entry.name;
     }
+    // if (v < 0x1555) {
+    //     return '-3';
+    // } else if (v < 0x2aaa) {
+    //     return '-2';
+    // } else if (v < 0x4000) {
+    //     return '-1';
+    // } else if (v < 0x5555) {
+    //     return '0';
+    // } else if (v < 0x6aaa) {
+    //     return '+1';
+    // } else if (v < 0x7fff) {
+    //     return '+2';
+    // } else {
+    //     return '+3';
+    // }
 }
 */
 
@@ -729,7 +737,6 @@ export const SWITCH = {
         MSB: [2, 18],
         LSB: [2, 17],
         msb: [2, 16, 0x01],
-        // mapping: _filter_type,
         values: [
             {name: 'LPF', value: 0},
             {name: 'BPF', value: 0x4000},
@@ -741,7 +748,6 @@ export const SWITCH = {
         MSB: [14, 17],
         LSB: [14, 15],
         msb: [14, 8, 0x40],
-        // mapping: _on_off,
         values: [
             {name: 'Off', value: 0},
             {name: 'On', value: 0x7fff}
