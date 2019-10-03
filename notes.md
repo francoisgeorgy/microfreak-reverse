@@ -92,6 +92,107 @@ assign1 cycenv amount
 assign1 cycenv fall
     21,4 03
     21,5 02
+    
+
+-- new:
+    
+assign1 mov cycenv-pitch
+    21,4 00     control     00=cycenv
+    21,5 0A     group
+assign1 mov env-pitch   
+    21,4 01                 01=env
+    21,5 0A
+assign1 mov lfo-pitch
+    21,4 02
+    21,5 0A
+assign1 mov press-pitch
+    21,4 03
+    21,5 0A
+assign1 mov key/arp-pitch
+    21,4 04
+    21,5 0A
+
+assign1 mod cycenv-assign1
+    21,4 00
+    21,5 0E
+assign1 mod cycenv-assign2
+    21,4 00
+    21,5 0F
+assign1 mod cycenv-assign3
+    21,4 00
+    21,5 10
+    
+assign1 mov cycenv-wave
+    21,4 00
+    21,5 0B
+assign1 mov env-wave
+    21,4 01
+    21,5 0B
+assign1 mov lfo-wave
+    21,4 02
+    21,5 0B
+assign1 mov press-wave
+    21,4 03
+    21,5 0B
+assign1 mov key/arp-wave
+    21,4 04
+    21,5 0B
+
+assign1 mov cycenv-timbre
+    21,4 00
+    21,5 0C
+assign1 mov env-timbre
+    21,4 01
+    21,5 0C
+assign1 mov lfo-timbre
+    21,4 02
+    21,5 0C
+assign1 mov press-timbre
+    21,4 03
+    21,5 0C
+assign1 mov key/arp-timbre
+    21,4 04
+    21,5 0C
+
+assign1 mov cycenv-cutoff
+    21,4 00
+    21,5 0D
+assign1 mov env-cutoff
+    21,4 01
+    21,5 0D
+assign1 mov lfo-cutoff
+    21,4 02
+    21,5 0D
+assign1 mov press-cutoff
+    21,4 03
+    21,5 0D
+assign1 mov key/arp-cutoff
+    21,4 04
+    21,5 0D
+    
+    
+assign2 mov cycenv-pitch
+    21,18 00
+    21,19 0A
+assign2 mov env-pitch
+    21,18 01
+    21,19 0A
+assign2 mov lfo-pitch
+    21,18 02
+    21,19 0A
+assign2 mov press-pitch
+    21,18 03
+    21,19 0A
+assign2 mov key/arp-pitch
+    21,18 04
+    21,19 0A
+    
+assign3 mod key/arp-pitch
+    21,31 04
+    22,1 0A
+
+
+
 
 assign2 cyc rise
     21,18 01            1 = cycenv rise

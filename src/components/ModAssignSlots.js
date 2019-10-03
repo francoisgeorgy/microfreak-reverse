@@ -15,17 +15,17 @@ class ModAssignSlots extends Component {
                     (slot, i) => {
                         const group = S.modAssignGroup(slot);
                         const control = S.modAssignControl(slot);
-                        let gn = '?';
-                        let cn = '?';
+                        let target_name = '?';
+                        let target_control = '?';
                         if (MOD_ASSIGN_TARGET[group]) {
-                            gn = MOD_ASSIGN_TARGET[group].name;
+                            target_name = MOD_ASSIGN_TARGET[group].name;
                             if (MOD_ASSIGN_TARGET[group].control[control]) {
-                                cn = MOD_ASSIGN_TARGET[group].control[control];
+                                target_control = MOD_ASSIGN_TARGET[group].control[control];
                             }
                         }
                         return (
                             <div key={i}>
-                                <div>group {group}, control {control} : {gn} {cn}</div>
+                                <div>slot {i}: group {group}, control {control} : {target_name} {target_control}</div>
                             </div>
                         )
                     }

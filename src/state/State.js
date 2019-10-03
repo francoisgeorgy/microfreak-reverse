@@ -1,6 +1,7 @@
 import {decorate, observable} from 'mobx';
 import {PORT_INPUT, PORT_OUTPUT} from "../components/Midi";
 import {ASSIGN1, DEFAULT_msb_mask, DEFAULT_sign_mask, MOD_ASSIGN_SLOT, multibytesValue} from "../model";
+import {portById} from "../utils/midi";
 
 class State {
 

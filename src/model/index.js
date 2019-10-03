@@ -195,6 +195,7 @@ export const MOD_ASSIGN_TARGET = {
         name: "LFO",
         control: {
             0: "Shape",
+            1: "Division",
             2: "Rate"
         }
     },
@@ -204,6 +205,76 @@ export const MOD_ASSIGN_TARGET = {
             1: "Attack",
             2: "Decay",
             3: "Sustain"
+        }
+    },
+    0x0A: {
+        name: 'Matrix target pitch',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
+        }
+    },
+    0x0B: {
+        name: 'Matrix target Wave',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
+        }
+    },
+    0x0C: {
+        name: 'Matrix target Timbre',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
+        }
+    },
+    0x0D: {
+        name: 'Matrix target Cutoff',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
+        }
+    },
+    0x0E: {
+        name: 'Matrix target Assign1',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
+        }
+    },
+    0x0F: {
+        name: 'Matrix target Assign2',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
+        }
+    },
+    0x10: {
+        name: 'Matrix target Assign3',
+        control: {
+            0: 'Cycenv',    // MOD MATRIX SRC
+            1: 'Env',
+            2: 'LFO',
+            3: 'Press',
+            4: 'Key/Arp'
         }
     }
 };
