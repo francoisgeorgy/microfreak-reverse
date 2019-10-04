@@ -1,6 +1,6 @@
 import {inject, observer} from "mobx-react";
 import React, {Component, Fragment} from "react";
-import {ENV, MOD_DESTINATION, MOD_SOURCE, PITCH} from "../model";
+import {MOD_SRC_ENV, MOD_DESTINATION, MOD_SOURCE, PITCH} from "../model";
 import {MOD_MATRIX} from "../model";
 import "./ModMatrix.css"
 
@@ -15,7 +15,7 @@ class ModMatrix extends Component {
         );
     };
 */
-/*env-pitch: {this.props.state.modMatrixValue(MOD_MATRIX[ENV][PITCH])}*/
+/*env-pitch: {this.props.state.modMatrixValue(MOD_MATRIX[MOD_SRC_ENV][PITCH])}*/
 
     render() {
         // const D = this.props.state.data;
