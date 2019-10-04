@@ -1,4 +1,3 @@
-
 import {getRightShift} from "../utils/bits-utils";
 
 export const multibytesValue = (MSB, LSB, msb_byte, mask_msb, sign_byte, mask_sign) => {

@@ -1,6 +1,6 @@
-import {decorate, observable} from 'mobx';
+import {computed, decorate, observable} from 'mobx';
 import {PORT_INPUT, PORT_OUTPUT} from "../components/Midi";
-import {ASSIGN1, DEFAULT_msb_mask, DEFAULT_sign_mask, MOD_ASSIGN_SLOT, multibytesValue} from "../model";
+import {DEFAULT_msb_mask, DEFAULT_sign_mask, MOD_ASSIGN_SLOT, multibytesValue} from "../model";
 import {portById} from "../utils/midi";
 
 class State {
@@ -21,6 +21,9 @@ class State {
 
     data = [];
     dataRef = [];   // copy used as reference for comparisons
+
+    // data_name = [0x01, 0x65, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x65, 0x00, 0x00, 0x10, 0x44, 0x69, 0x73, 0x72, 0x65, 0x73, 0x70, 0x65, 0x63, 0x74, 0x66];
+    data_name = null;
 
     addPort(port) {
         // eslint-disable-next-line
@@ -272,9 +275,30 @@ class State {
     modAssignControl(slot) {
         if (this.data.length < 39) return;  //FIXME
         const m = MOD_ASSIGN_SLOT[slot].control;
-        const control = this.data[ m[0] ][ m[1] ];
-        return control;
+        return this.data[ m[0] ][ m[1] ];
     };
+
+    get presetName() {
+
+        console.log("state.presetName()");
+
+        if (!this.data_name || this.data_name.length < 13) {
+            console.log("state.presetName: data_name too short", this.data_name);
+            return '';
+        }
+
+        // [0x01, 0x65, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00, 0x65, 0x00, 0x00, 0x10, 0x44, 0x69, 0x73, 0x72, 0x65, 0x73, 0x70, 0x65, 0x63, 0x74, 0x66]
+        //     0                                                                11    12
+
+        let name = '';
+        let i = 12;
+        while (i < this.data_name.length && this.data_name[i] !== 0) {
+            name += String.fromCharCode(this.data_name[i]);
+            i++;
+        }
+
+        return name;
+    }
 
 }
 
@@ -282,8 +306,10 @@ class State {
 decorate(State, {
     midi: observable,
     preset: observable,
+    presetName: computed,
     data: observable,
     dataRef: observable,
+    data_name: observable,
     lock: observable
 });
 
