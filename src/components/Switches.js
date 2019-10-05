@@ -1,6 +1,6 @@
 import {inject, observer} from "mobx-react";
 import React, {Component, Fragment} from "react";
-import {CONTROL, MOD_DESTINATION, MOD_MATRIX, SWITCH} from "../model";
+import {CONTROL, MOD_MATRIX_DESTINATION, MOD_MATRIX, SWITCH} from "../model";
 import "./Switches.css"
 
 class Switches extends Component {

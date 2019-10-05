@@ -12,6 +12,10 @@ class ModAssignSlots extends Component {
         return (
             <div className="slots">
                 {Object.getOwnPropertySymbols(MOD_ASSIGN_SLOT).map(
+                    (slot, i) => <div key={i}>
+                        <div>slot {i}: {S.modDestName(slot)}</div>
+                    </div>
+/*
                     (slot, i) => {
                         const group = S.modAssignGroup(slot);
                         const control = S.modAssignControl(slot);
@@ -29,6 +33,7 @@ class ModAssignSlots extends Component {
                             </div>
                         )
                     }
+*/
                 )}
             </div>
         );
