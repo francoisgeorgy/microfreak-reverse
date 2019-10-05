@@ -70,10 +70,10 @@ class ModMatrix extends Component {
         //
         // ModMatrix.js:82 ------ Symbol(MOD_SRC_LFO) x Symbol(OSC_WAVE) ------
         // ModMatrix.js:28 Mods Symbol(MOD_SRC_LFO) Symbol(OSC_WAVE)
-        // ModMatrix.js:36 Mods matrix mod   Symbol(MOD_SRC_LFO)    Symbol(OSC_WAVE)    Symbol(MOD_GROUP_MOD_TARGET_WAVE)   {mod_group: Symbol(MOD_GROUP_MOD_TARGET_WAVE), control: {…}}
+        // ModMatrix.js:36 Mods matrix mod   Symbol(MOD_SRC_LFO)    Symbol(OSC_WAVE)    Symbol(MOD_GROUP_MATRIX_WAVE)   {mod_group: Symbol(MOD_GROUP_MATRIX_WAVE), control: {…}}
 
         // Mods Symbol(MOD_SRC_CYC_ENV) Symbol(PITCH)
-        // modAssignDest 11 (2) [21, 5] {mod_group: Symbol(MOD_GROUP_MOD_TARGET_WAVE), control: {…}}
+        // modAssignDest 11 (2) [21, 5] {mod_group: Symbol(MOD_GROUP_MATRIX_WAVE), control: {…}}
 
     };
 

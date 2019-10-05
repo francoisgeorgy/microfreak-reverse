@@ -328,7 +328,7 @@ class State {
             // console.log("modDestName, control", dest_is_matrix, this.modAssignControlNum(dest), control);
             if (control) {
                 control_name = MOD_DESTINATION[control];
-                return dest_is_matrix ? `${control_name} > ${group_name}` : `${group_name} ${control_name}`;
+                return dest_is_matrix ? `${control_name}-${group_name}` : `${group_name} ${control_name}`;
             }
         }
         return MOD_MATRIX_DESTINATION[dest];
