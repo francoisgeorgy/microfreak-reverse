@@ -59,7 +59,7 @@ class App extends Component {
                     </div>
                     <div className="cols">
                         <div>
-                            <DeltaList />
+                            {/*<DeltaList />*/}
                             <Data />
                         </div>
                         <div>

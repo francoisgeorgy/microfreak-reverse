@@ -25,7 +25,7 @@ class ModMatrix extends Component {
 /*env-pitch: {this.props.state.modMatrixValue(MOD_MATRIX[MOD_SRC_ENV][PITCH])}*/
 
     Mods = (src, dest) => {
-        console.log("Mods", src, dest);     // Symbol(MOD_SRC_CYC_ENV) Symbol(PITCH)
+        // console.log("Mods", src, dest);     // Symbol(MOD_SRC_CYC_ENV) Symbol(PITCH)
 
         const S = this.props.state;
 
@@ -46,7 +46,7 @@ class ModMatrix extends Component {
             // console.log("Mods matrix mod", src, dest, MOD_GROUP_MOD_DEST[dest], dest_def);
 
             if (MOD_GROUP_MOD_DEST[dest] === dest_def.mod_group) {
-                console.log("Mods matrix mod dest def", slot, src, dest, dest_def);
+                // console.log("Mods matrix mod dest def", slot, src, dest, dest_def);
                 const control = dest_def.control[S.modAssignControlNum(slot)];
                 if (control === src) {
                     // console.log("Mods matrix mod ifself", src, dest, control, dest_def.mod_group);
@@ -114,7 +114,7 @@ class ModMatrix extends Component {
                                 <div>{MOD_SOURCE[src]}</div>
                                 {Object.getOwnPropertySymbols(MOD_MATRIX_DESTINATION).map(
                                     (dst, j) => {
-                                        console.log(`------ ${src.toString()} x ${dst.toString()} ------`);
+                                        // console.log(`------ ${src.toString()} x ${dst.toString()} ------`);
                                         const r = S.modMatrixValue(src, dst, true);
                                         return <div key={j}>{r}<br/>0x{r.toString(16)}<br/>{Math.round(r * 1000 / 32768) / 10}<br/>{this.Mods(src, dst)}</div>
                                     }
