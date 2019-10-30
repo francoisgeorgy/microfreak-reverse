@@ -15,11 +15,13 @@ class Controls extends Component {
                 {Object.getOwnPropertySymbols(CONTROL).map(
                     (sym, index) => {
                         const v = this.props.state.controlValue(CONTROL[sym], sym === OSC_TYPE);
+                        const raw = this.props.state.controlValue(CONTROL[sym], true);
                         const mapped = CONTROL[sym].mapping ? CONTROL[sym].mapping(v) : '';
                         return (
                             <Fragment key={index}>
                                 <div>{CONTROL[sym].name}</div>
                                 <div>{v} {mapped}</div>
+                                <div>0x{raw.toString(16)}</div>
                             </Fragment>
                         )
                     }

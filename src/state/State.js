@@ -273,6 +273,48 @@ class State {
         const mask_msb = m.msb.length === 3 ? m.msb[2] : DEFAULT_msb_mask;
         const mask_sign = m.sign.length === 3 ? m.sign[2] : DEFAULT_sign_mask;
 
+        let MSB_row = m.MSB[0];
+        let MSB_col = m.MSB[1];
+        let LSB_row = m.LSB[0];
+        let LSB_col = m.LSB[1];
+        let msb_row = m.msb[0];
+        let msb_col = m.msb[1];
+        let sign_row = m.sign[0];
+        let sign_col = m.sign[1];
+        let factory = false;
+        if (factory) {
+            const delta = 11;
+            MSB_col += delta;
+            if (MSB_col > 31) {
+                MSB_row++;
+                MSB_col -= 32;
+            }
+            LSB_col += delta;
+            if (LSB_col > 31) {
+                LSB_row++;
+                LSB_col -= 32;
+            }
+            msb_col += delta;
+            if (msb_col > 31) {
+                msb_row++;
+                msb_col -= 32;
+            }
+            sign_col += delta;
+            if (sign_col > 31) {
+                sign_row++;
+                sign_col -= 32;
+            }
+        }
+
+        const raw = multibytesValue(
+            this.data[ MSB_row ][ MSB_col ],
+            this.data[ LSB_row ][ LSB_col ],
+            this.data[ msb_row ][ msb_col ],
+            mask_msb,
+            this.data[ sign_row ][ sign_col ],
+            mask_sign);
+
+/*
         const raw = multibytesValue(
             this.data[ m.MSB[0] ][ m.MSB[1] ],
             this.data[ m.LSB[0] ][ m.LSB[1] ],
@@ -280,6 +322,7 @@ class State {
             mask_msb,
             this.data[ m.sign[0] ][ m.sign[1] ],
             mask_sign);
+*/
 
         return return_raw ? raw : (Math.round(raw * 1000 / 32768) / 10);
     }

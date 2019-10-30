@@ -99,8 +99,8 @@ export async function readPreset() {
     sendPresetRequest(state.preset.current);
     await wait(2 * WAIT_BETWEEN_MESSAGES);
 
-    // const N = 146;
-    const N = 40;
+    const N = 146;
+    // const N = 40;
 
     state.lock = true;
     for (let i=0; i < N; i++) {

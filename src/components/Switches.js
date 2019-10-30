@@ -14,10 +14,12 @@ class Switches extends Component {
             <div className="switches">
                 {Object.getOwnPropertySymbols(SWITCH).map(
                     (sym, index) => {
+                        const raw = this.props.state.switchValue(SWITCH[sym], true);
                         return (
                             <Fragment key={index}>
                                 <div>{SWITCH[sym].name}</div>
-                                <div>{this.props.state.switchValue(SWITCH[sym])} {this.props.state.switchValue(SWITCH[sym], true)}</div>
+                                <div>{this.props.state.switchValue(SWITCH[sym])} {raw}</div>
+                                <div>0x{raw.toString(16)}</div>
                             </Fragment>
                         )
                     }
