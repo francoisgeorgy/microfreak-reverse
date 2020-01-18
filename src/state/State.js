@@ -195,6 +195,10 @@ class State {
         this.dataRef = [];
     }
 
+    fwVersion() {   //TODO: not sure this is the right way to find the firmware version, but that seems to work.
+        return this.data[0][12] === 0x0D ? 2 : 1;
+    }
+
     controlValue(m, return_raw=false) {
 
         // const D = this.props.state.data;
